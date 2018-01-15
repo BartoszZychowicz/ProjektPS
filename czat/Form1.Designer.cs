@@ -55,6 +55,7 @@
             this.ServerIPtextBox.Name = "ServerIPtextBox";
             this.ServerIPtextBox.Size = new System.Drawing.Size(122, 20);
             this.ServerIPtextBox.TabIndex = 0;
+            this.ServerIPtextBox.TextChanged += new System.EventHandler(this.ServerIPtextBox_TextChanged);
             // 
             // ServerPorttextBox
             // 

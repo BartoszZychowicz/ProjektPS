@@ -121,5 +121,10 @@ namespace czat
                 MessegetextBox.Text = "";
             }
         }
+
+        private void ServerIPtextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
