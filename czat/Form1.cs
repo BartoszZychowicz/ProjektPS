@@ -41,7 +41,7 @@ namespace czat
                     recieve = STR.ReadLine();
                     this.ChatScreentextBox.Invoke(new MethodInvoker(delegate ()
                     {
-                        ChatScreentextBox.AppendText("You:" + recieve + "\n");
+                        ChatScreentextBox.AppendText("Przeciwnik:" + recieve + "\n");
                     }));
                     recieve = "";
                 }
@@ -59,6 +59,7 @@ namespace czat
                 TcpListener listener = new TcpListener(IPAddress.Any, int.Parse(PorttextBox.Text));
                 listener.Start();
                 client = listener.AcceptTcpClient();
+                ChatScreentextBox.AppendText("Client" + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString() + " just connected!" + "\n");
                 STR = new StreamReader(client.GetStream());
                 STW = new StreamWriter(client.GetStream());
                 STW.AutoFlush = true;
@@ -74,7 +75,7 @@ namespace czat
                     client.Connect(IpEnd);
                     if (client.Connected)
                     {
-                        ChatScreentextBox.AppendText("Connected to Server" + "\n");
+                        ChatScreentextBox.AppendText("Connected to Server " + IpEnd + "\n");
                         STR = new StreamReader(client.GetStream());
                         STW = new StreamWriter(client.GetStream());
                         STW.AutoFlush = true;
@@ -89,11 +90,6 @@ namespace czat
             }
         }
 
-        private void Connectbutton_Click(object sender, EventArgs e)
-        {
-            
-        }
-
         private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
         {
             if (client.Connected)
@@ -101,7 +97,7 @@ namespace czat
                 STW.WriteLine(TextToSend);
                 this.ChatScreentextBox.Invoke(new MethodInvoker(delegate
                 {
-                    ChatScreentextBox.AppendText("Me:" + TextToSend + "\n");
+                    ChatScreentextBox.AppendText("Ja:" + TextToSend + "\n");
                 }));
             }
             else
