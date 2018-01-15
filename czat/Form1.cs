@@ -24,14 +24,7 @@ namespace czat
         public Form1()
         {
             InitializeComponent();
-            IPAddress[] localIP = Dns.GetHostAddresses(Dns.GetHostName());
-            foreach (IPAddress address in localIP)
-            {
-                if(address.AddressFamily==AddressFamily.InterNetwork)
-                {
-                    ServerIPtextBox.Text = address.ToString();
-                }
-            }
+            radioButton1.Checked = true;
         }
 
         private void groupBox2_Enter(object sender, EventArgs e)
@@ -61,37 +54,44 @@ namespace czat
 
         private void Startbutton_Click(object sender, EventArgs e)
         {
-            TcpListener listener = new TcpListener(IPAddress.Any, int.Parse(ServerPorttextBox.Text));
-            listener.Start();
-            client = listener.AcceptTcpClient();
-            STR = new StreamReader(client.GetStream());
-            STW = new StreamWriter(client.GetStream());
-            STW.AutoFlush = true;
-            backgroundWorker1.RunWorkerAsync();
-            backgroundWorker2.WorkerSupportsCancellation = true;
+            if (radioButton1.Checked && !(radioButton2.Checked))    //jezeli wybrano serwer
+            {
+                TcpListener listener = new TcpListener(IPAddress.Any, int.Parse(PorttextBox.Text));
+                listener.Start();
+                client = listener.AcceptTcpClient();
+                STR = new StreamReader(client.GetStream());
+                STW = new StreamWriter(client.GetStream());
+                STW.AutoFlush = true;
+                backgroundWorker1.RunWorkerAsync();
+                backgroundWorker2.WorkerSupportsCancellation = true;
+            }
+            else if (!(radioButton1.Checked) && radioButton2.Checked)       //jezeli wybrano klient
+            {
+                client = new TcpClient();
+                IPEndPoint IpEnd = new IPEndPoint(IPAddress.Parse(IPtextBox.Text), int.Parse(PorttextBox.Text));
+                try
+                {
+                    client.Connect(IpEnd);
+                    if (client.Connected)
+                    {
+                        ChatScreentextBox.AppendText("Connected to Server" + "\n");
+                        STR = new StreamReader(client.GetStream());
+                        STW = new StreamWriter(client.GetStream());
+                        STW.AutoFlush = true;
+                        backgroundWorker1.RunWorkerAsync();
+                        backgroundWorker2.WorkerSupportsCancellation = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message.ToString());
+                }
+            }
         }
 
         private void Connectbutton_Click(object sender, EventArgs e)
         {
-            client = new TcpClient();
-            IPEndPoint IpEnd = new IPEndPoint(IPAddress.Parse(ClientIPtextBox.Text), int.Parse(ClientPorttextBox.Text));
-            try
-            {
-                client.Connect(IpEnd);
-                if(client.Connected)
-                {
-                    ChatScreentextBox.AppendText("Connected to Server" + "\n");
-                    STR = new StreamReader(client.GetStream());
-                    STW = new StreamWriter(client.GetStream());
-                    STW.AutoFlush = true;
-                    backgroundWorker1.RunWorkerAsync();
-                    backgroundWorker2.WorkerSupportsCancellation = true;
-                }
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message.ToString());
-            }
+            
         }
 
         private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
@@ -125,6 +125,37 @@ namespace czat
         private void ServerIPtextBox_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void ServerPorttextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked)   //podaj swoje IP, jesli jestes serwerem
+            {
+                IPAddress[] localIP = Dns.GetHostAddresses(Dns.GetHostName());
+                foreach (IPAddress address in localIP)
+                {
+                    if (address.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        IPtextBox.Text = address.ToString();
+                    }
+                }
+                Startbutton.Text = "Utwórz";
+            }
+            else
+            {
+                IPtextBox.Text = String.Empty;
+                Startbutton.Text = "Połącz";
+            }
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }
