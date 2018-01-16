@@ -24,13 +24,23 @@ namespace czat
         public string TextToSend;
         public int playerNumber;
         public int opponentNumber;
+        List<Image> listOfPicture;
         private bool gameStarted = false;
         public Form1()
         {
             InitializeComponent();
             radioButton1.Checked = true;
-        }
+            }
 
+        private void loadListOfPicture()
+        {
+            card1.Visible = true;
+            
+            listOfPicture = new List<Image>();
+            listOfPicture.Add(czat.Properties.Resources.w1);
+            listOfPicture.Add(czat.Properties.Resources.w2);
+
+        }
         private bool isSystemMsg(string msg)        //sprawdza czy wiadomosc jest systemowa czy pochodzi z czatu
         {
             if (msg.Substring(0, 1) == "S")
@@ -74,6 +84,13 @@ namespace czat
                     this.opponentReadyBox.Invoke(new MethodInvoker(delegate
                     {
                         opponentReadyBox.Checked = true;
+                        if (playerReadyBox.Checked && opponentReadyBox.Checked) //jesli oboje gotowi
+                        {
+                            MessageBox.Show("Czas rozpocząć walkę"); 
+                            loadListOfPicture();
+                            card1.Image = listOfPicture[0];             //pokaz karte id=0
+                            card1.Image.Tag = "0";
+                        }
                     }));
                     
                 }
@@ -218,12 +235,34 @@ namespace czat
         private void playerReadyButton_Click(object sender, EventArgs e)
         {
             playerReadyBox.Checked = true;
-            sendSystemMsg("RDY" + playerNumber); 
+            sendSystemMsg("RDY" + playerNumber);
+
+            if (playerReadyBox.Checked && opponentReadyBox.Checked)
+            {
+                MessageBox.Show("Czas rozpocząć walkę");
+                loadListOfPicture();
+
+                card1.Image = listOfPicture[1];
+                card1.Image.Tag = "1";
+                
+            }
         }
 
         private void opponentReadyBox_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void opponentReadyBox_CheckedChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void card1_Click(object sender, EventArgs e)
+        {
+            textBox1.Visible = true;
+            textBox1.Text = "Numer karty:"+ card1.Image.Tag.ToString();
+            
         }
     }
 }

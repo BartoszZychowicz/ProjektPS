@@ -45,8 +45,11 @@
             this.playerReadyButton = new System.Windows.Forms.Button();
             this.opponentReadyBox = new System.Windows.Forms.CheckBox();
             this.playerReadyBox = new System.Windows.Forms.CheckBox();
+            this.card1 = new System.Windows.Forms.PictureBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.card1)).BeginInit();
             this.SuspendLayout();
             // 
             // IPtextBox
@@ -193,6 +196,7 @@
             // opponentReadyBox
             // 
             this.opponentReadyBox.AutoSize = true;
+            this.opponentReadyBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.opponentReadyBox.Enabled = false;
             this.opponentReadyBox.Location = new System.Drawing.Point(980, 538);
             this.opponentReadyBox.Name = "opponentReadyBox";
@@ -200,6 +204,7 @@
             this.opponentReadyBox.TabIndex = 11;
             this.opponentReadyBox.Text = "Przeciwnik";
             this.opponentReadyBox.UseVisualStyleBackColor = true;
+            this.opponentReadyBox.CheckedChanged += new System.EventHandler(this.opponentReadyBox_CheckedChanged_1);
             // 
             // playerReadyBox
             // 
@@ -212,11 +217,32 @@
             this.playerReadyBox.Text = "Ja";
             this.playerReadyBox.UseVisualStyleBackColor = true;
             // 
+            // card1
+            // 
+            this.card1.Location = new System.Drawing.Point(525, 202);
+            this.card1.Name = "card1";
+            this.card1.Size = new System.Drawing.Size(157, 195);
+            this.card1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.card1.TabIndex = 15;
+            this.card1.TabStop = false;
+            this.card1.Visible = false;
+            this.card1.Click += new System.EventHandler(this.card1_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(506, 438);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 16;
+            this.textBox1.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1124, 628);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.card1);
             this.Controls.Add(this.playerReadyBox);
             this.Controls.Add(this.opponentReadyBox);
             this.Controls.Add(this.playerReadyButton);
@@ -228,6 +254,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.card1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -252,6 +279,8 @@
         private System.Windows.Forms.Button playerReadyButton;
         private System.Windows.Forms.CheckBox opponentReadyBox;
         private System.Windows.Forms.CheckBox playerReadyBox;
+        private System.Windows.Forms.PictureBox card1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
