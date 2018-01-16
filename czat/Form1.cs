@@ -13,6 +13,7 @@ using System.IO;
 
 namespace czat
 {
+
     public partial class Form1 : Form
     {
 
@@ -23,6 +24,7 @@ namespace czat
         public string TextToSend;
         public int playerNumber;
         public int opponentNumber;
+        private bool gameStarted = false;
         public Form1()
         {
             InitializeComponent();
@@ -63,16 +65,16 @@ namespace czat
             backgroundWorker2.RunWorkerAsync();
         }
 
-        public void interpretSystemMsg(string msg)
+        private void interpretSystemMsg(string msg)
         {
             if (msg.Substring(0,3) == "RDY")        //wiadomosc dotyczy gotowosci do rozpoczecia gry
             {
                 if(Int32.Parse(msg.Substring(3, 1))  == opponentNumber)
                 {
-                    //this.ChatScreentextBox.Invoke(new MethodInvoker(delegate
-                    //{
+                    this.opponentReadyBox.Invoke(new MethodInvoker(delegate
+                    {
                         opponentReadyBox.Checked = true;
-                    //}));
+                    }));
                     
                 }
             }
@@ -94,10 +96,6 @@ namespace czat
                     else
                     {
                         interpretSystemMsg(truncateFirstSign(recieve));
-                        this.ChatScreentextBox.Invoke(new MethodInvoker(delegate ()
-                        {
-                            ChatScreentextBox.AppendText("System: " + recieve + "\n");
-                        }));
                     }
                     recieve = "";
                 }
@@ -219,6 +217,7 @@ namespace czat
 
         private void playerReadyButton_Click(object sender, EventArgs e)
         {
+            playerReadyBox.Checked = true;
             sendSystemMsg("RDY" + playerNumber); 
         }
 

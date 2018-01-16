@@ -44,6 +44,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.playerReadyButton = new System.Windows.Forms.Button();
             this.opponentReadyBox = new System.Windows.Forms.CheckBox();
+            this.playerReadyBox = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -193,18 +194,30 @@
             // 
             this.opponentReadyBox.AutoSize = true;
             this.opponentReadyBox.Enabled = false;
-            this.opponentReadyBox.Location = new System.Drawing.Point(980, 519);
+            this.opponentReadyBox.Location = new System.Drawing.Point(980, 538);
             this.opponentReadyBox.Name = "opponentReadyBox";
-            this.opponentReadyBox.Size = new System.Drawing.Size(114, 17);
+            this.opponentReadyBox.Size = new System.Drawing.Size(77, 17);
             this.opponentReadyBox.TabIndex = 11;
-            this.opponentReadyBox.Text = "Przeciwnik gotowy";
+            this.opponentReadyBox.Text = "Przeciwnik";
             this.opponentReadyBox.UseVisualStyleBackColor = true;
+            // 
+            // playerReadyBox
+            // 
+            this.playerReadyBox.AutoSize = true;
+            this.playerReadyBox.Enabled = false;
+            this.playerReadyBox.Location = new System.Drawing.Point(980, 515);
+            this.playerReadyBox.Name = "playerReadyBox";
+            this.playerReadyBox.Size = new System.Drawing.Size(37, 17);
+            this.playerReadyBox.TabIndex = 12;
+            this.playerReadyBox.Text = "Ja";
+            this.playerReadyBox.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1124, 628);
+            this.Controls.Add(this.playerReadyBox);
             this.Controls.Add(this.opponentReadyBox);
             this.Controls.Add(this.playerReadyButton);
             this.Controls.Add(this.groupBox2);
@@ -237,7 +250,8 @@
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button playerReadyButton;
-        public System.Windows.Forms.CheckBox opponentReadyBox;
+        private System.Windows.Forms.CheckBox opponentReadyBox;
+        private System.Windows.Forms.CheckBox playerReadyBox;
     }
 }
 
