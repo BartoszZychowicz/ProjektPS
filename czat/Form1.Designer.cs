@@ -38,10 +38,12 @@
             this.PORT = new System.Windows.Forms.Label();
             this.IP = new System.Windows.Forms.Label();
             this.Sendbutton = new System.Windows.Forms.Button();
-            this.MessegetextBox = new System.Windows.Forms.TextBox();
+            this.MessagetextBox = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.playerReadyButton = new System.Windows.Forms.Button();
+            this.opponentReadyBox = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -149,12 +151,12 @@
             this.Sendbutton.UseVisualStyleBackColor = true;
             this.Sendbutton.Click += new System.EventHandler(this.Sendbutton_Click);
             // 
-            // MessegetextBox
+            // MessagetextBox
             // 
-            this.MessegetextBox.Location = new System.Drawing.Point(6, 484);
-            this.MessegetextBox.Name = "MessegetextBox";
-            this.MessegetextBox.Size = new System.Drawing.Size(219, 20);
-            this.MessegetextBox.TabIndex = 8;
+            this.MessagetextBox.Location = new System.Drawing.Point(6, 484);
+            this.MessagetextBox.Name = "MessagetextBox";
+            this.MessagetextBox.Size = new System.Drawing.Size(219, 20);
+            this.MessagetextBox.TabIndex = 8;
             // 
             // backgroundWorker1
             // 
@@ -167,7 +169,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.Sendbutton);
-            this.groupBox1.Controls.Add(this.MessegetextBox);
+            this.groupBox1.Controls.Add(this.MessagetextBox);
             this.groupBox1.Controls.Add(this.ChatScreentextBox);
             this.groupBox1.Location = new System.Drawing.Point(12, 77);
             this.groupBox1.Name = "groupBox1";
@@ -176,11 +178,35 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Czat";
             // 
+            // playerReadyButton
+            // 
+            this.playerReadyButton.Location = new System.Drawing.Point(980, 561);
+            this.playerReadyButton.Name = "playerReadyButton";
+            this.playerReadyButton.Size = new System.Drawing.Size(111, 41);
+            this.playerReadyButton.TabIndex = 10;
+            this.playerReadyButton.Text = "gotowy!";
+            this.playerReadyButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.playerReadyButton.UseVisualStyleBackColor = true;
+            this.playerReadyButton.Click += new System.EventHandler(this.playerReadyButton_Click);
+            // 
+            // opponentReadyBox
+            // 
+            this.opponentReadyBox.AutoSize = true;
+            this.opponentReadyBox.Enabled = false;
+            this.opponentReadyBox.Location = new System.Drawing.Point(980, 519);
+            this.opponentReadyBox.Name = "opponentReadyBox";
+            this.opponentReadyBox.Size = new System.Drawing.Size(114, 17);
+            this.opponentReadyBox.TabIndex = 11;
+            this.opponentReadyBox.Text = "Przeciwnik gotowy";
+            this.opponentReadyBox.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1124, 628);
+            this.Controls.Add(this.opponentReadyBox);
+            this.Controls.Add(this.playerReadyButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
@@ -190,6 +216,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -203,12 +230,14 @@
         private System.Windows.Forms.Label PORT;
         private System.Windows.Forms.Label IP;
         private System.Windows.Forms.Button Sendbutton;
-        private System.Windows.Forms.TextBox MessegetextBox;
+        private System.Windows.Forms.TextBox MessagetextBox;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.ComponentModel.BackgroundWorker backgroundWorker2;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button playerReadyButton;
+        public System.Windows.Forms.CheckBox opponentReadyBox;
     }
 }
 

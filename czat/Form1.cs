@@ -21,10 +21,29 @@ namespace czat
         public StreamWriter STW;
         public string recieve;
         public string TextToSend;
+        public int playerNumber;
+        public int opponentNumber;
         public Form1()
         {
             InitializeComponent();
             radioButton1.Checked = true;
+        }
+
+        private bool isSystemMsg(string msg)        //sprawdza czy wiadomosc jest systemowa czy pochodzi z czatu
+        {
+            if (msg.Substring(0, 1) == "S")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private string truncateFirstSign(string msg)
+        {
+            return msg.Substring(1, msg.Length - 1);
         }
 
         private void groupBox2_Enter(object sender, EventArgs e)
@@ -32,17 +51,54 @@ namespace czat
 
         }
 
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        private void sendChatMsg(string msg)        //wyslanie wiadomosci na chat
+        {
+            TextToSend = string.Concat("C", msg);
+            backgroundWorker2.RunWorkerAsync();
+        }
+
+        private void sendSystemMsg(string msg)      //wyslanie wiadomosci systemowej
+        {
+            TextToSend = string.Concat("S", msg);
+            backgroundWorker2.RunWorkerAsync();
+        }
+
+        public void interpretSystemMsg(string msg)
+        {
+            if (msg.Substring(0,3) == "RDY")        //wiadomosc dotyczy gotowosci do rozpoczecia gry
+            {
+                if(Int32.Parse(msg.Substring(3, 1))  == opponentNumber)
+                {
+                    //this.ChatScreentextBox.Invoke(new MethodInvoker(delegate
+                    //{
+                        opponentReadyBox.Checked = true;
+                    //}));
+                    
+                }
+            }
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)     //backgroundworker1 odpowiada za odbieranie w tle
         {
             while(client.Connected)
             {
                 try
                 {
                     recieve = STR.ReadLine();
-                    this.ChatScreentextBox.Invoke(new MethodInvoker(delegate ()
+                    if (!(isSystemMsg(recieve))) { //jezeli komenda nie jest systemowa, wyswietla ja na czacie
+                        this.ChatScreentextBox.Invoke(new MethodInvoker(delegate ()
+                        {
+                            ChatScreentextBox.AppendText("Przeciwnik: " + truncateFirstSign(recieve) + "\n");
+                        }));
+                    }
+                    else
                     {
-                        ChatScreentextBox.AppendText("Przeciwnik:" + recieve + "\n");
-                    }));
+                        interpretSystemMsg(truncateFirstSign(recieve));
+                        this.ChatScreentextBox.Invoke(new MethodInvoker(delegate ()
+                        {
+                            ChatScreentextBox.AppendText("System: " + recieve + "\n");
+                        }));
+                    }
                     recieve = "";
                 }
                 catch(Exception ex)
@@ -52,14 +108,17 @@ namespace czat
             }
         }
 
-        private void Startbutton_Click(object sender, EventArgs e)
+        private void Startbutton_Click(object sender, EventArgs e)      //przycisk rozpoczecia polaczenia
         {
             if (radioButton1.Checked && !(radioButton2.Checked))    //jezeli wybrano serwer
             {
                 TcpListener listener = new TcpListener(IPAddress.Any, int.Parse(PorttextBox.Text));
-                listener.Start();
-                client = listener.AcceptTcpClient();
-                ChatScreentextBox.AppendText("Client" + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString() + " just connected!" + "\n");
+                listener.Start();  
+                ChatScreentextBox.AppendText("Server is up and running!" + "\n");
+                client = listener.AcceptTcpClient();                // blokuje program do uzyskania polaczenia, moze warto by to zmienic/robic to w tle?  
+                ChatScreentextBox.AppendText("Client " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString() + " just connected!" + "\n");
+                playerNumber = 1;       //gracz serwer ma numer 1
+                opponentNumber = 2;
                 STR = new StreamReader(client.GetStream());
                 STW = new StreamWriter(client.GetStream());
                 STW.AutoFlush = true;
@@ -76,6 +135,8 @@ namespace czat
                     if (client.Connected)
                     {
                         ChatScreentextBox.AppendText("Connected to Server " + IpEnd + "\n");
+                        playerNumber = 2;
+                        opponentNumber = 1;
                         STR = new StreamReader(client.GetStream());
                         STW = new StreamWriter(client.GetStream());
                         STW.AutoFlush = true;
@@ -90,15 +151,18 @@ namespace czat
             }
         }
 
-        private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
+        private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)     //backgroundworker2 odpowiada za wysyłanie w tle
         {
             if (client.Connected)
             {
                 STW.WriteLine(TextToSend);
-                this.ChatScreentextBox.Invoke(new MethodInvoker(delegate
+                if (!isSystemMsg(TextToSend))   //jesli nie jest wiadomoscia systemowa, pokaz na czacie
                 {
-                    ChatScreentextBox.AppendText("Ja:" + TextToSend + "\n");
-                }));
+                    this.ChatScreentextBox.Invoke(new MethodInvoker(delegate
+                    {
+                        ChatScreentextBox.AppendText("Ja: " + truncateFirstSign(TextToSend) + "\n");
+                    }));
+                }
             }
             else
             {
@@ -110,12 +174,11 @@ namespace czat
 
         private void Sendbutton_Click(object sender, EventArgs e)
         {
-            if(MessegetextBox.Text != "")
+            if(MessagetextBox.Text != "")
             {
-                TextToSend = MessegetextBox.Text;
-                backgroundWorker2.RunWorkerAsync();
-                MessegetextBox.Text = "";
+                sendChatMsg(MessagetextBox.Text);
             }
+            MessagetextBox.Text = "";
         }
 
         private void ServerIPtextBox_TextChanged(object sender, EventArgs e)
@@ -152,6 +215,16 @@ namespace czat
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
             
+        }
+
+        private void playerReadyButton_Click(object sender, EventArgs e)
+        {
+            sendSystemMsg("RDY" + playerNumber); 
+        }
+
+        private void opponentReadyBox_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
