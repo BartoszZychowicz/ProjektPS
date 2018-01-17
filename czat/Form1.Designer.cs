@@ -1,4 +1,4 @@
-﻿namespace czat
+﻿namespace projekt
 {
     partial class Form1
     {

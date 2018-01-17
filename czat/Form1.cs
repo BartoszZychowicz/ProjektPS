@@ -11,7 +11,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 
-namespace czat
+namespace projekt
 {
 
     public partial class Form1 : Form
@@ -37,8 +37,8 @@ namespace czat
             card1.Visible = true;
             
             listOfPicture = new List<Image>();
-            listOfPicture.Add(czat.Properties.Resources.w1);
-            listOfPicture.Add(czat.Properties.Resources.w2);
+            listOfPicture.Add(projekt.Properties.Resources.w1);
+            listOfPicture.Add(projekt.Properties.Resources.w2);
 
         }
         private bool isSystemMsg(string msg)        //sprawdza czy wiadomosc jest systemowa czy pochodzi z czatu
