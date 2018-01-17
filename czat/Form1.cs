@@ -53,7 +53,7 @@ namespace czat
             }
         }
 
-        private string truncateFirstSign(string msg)
+        private string truncateFirstSign(string msg)    //usuniecie pierwszego znaku
         {
             return msg.Substring(1, msg.Length - 1);
         }
