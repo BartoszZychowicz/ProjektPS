@@ -66,13 +66,50 @@ namespace projekt
         private void sendChatMsg(string msg)        //wyslanie wiadomosci na chat
         {
             TextToSend = string.Concat("C", msg);
-            backgroundWorker2.RunWorkerAsync();
+            if (!backgroundWorker2.IsBusy)
+            {
+                backgroundWorker2.RunWorkerAsync();
+            }
+            else
+            {
+                backgroundWorker3.RunWorkerAsync();
+            }
         }
 
         private void sendSystemMsg(string msg)      //wyslanie wiadomosci systemowej
         {
             TextToSend = string.Concat("S", msg);
-            backgroundWorker2.RunWorkerAsync();
+            if (!backgroundWorker2.IsBusy)
+            {
+                backgroundWorker2.RunWorkerAsync();
+            }
+            else
+            {
+                backgroundWorker3.RunWorkerAsync();
+            }
+            this.Invoke(new MethodInvoker(delegate
+            {
+                ChatScreentextBox.AppendText("SysSend:" + msg + "\n");  //tylko do debugowania
+            }));
+        }
+
+        private void startGame()    //rozpoczecie gry
+        {
+            if(playerNumber == 1)       //tylko serwer wysyla komunikat game start
+            {
+                sendSystemMsg("GST");            //Game Start
+            }
+            MessageBox.Show("Czas rozpocząć walkę");
+            this.Invoke(new MethodInvoker(delegate
+            {
+                playerReadyButton.Text = "Zagraj kartę";
+                playerReadyButton.Enabled = false;
+                groupBoxConnection.Enabled = false;
+                playerReadyBox.Checked = false;
+                opponentReadyBox.Checked = false;
+                ChatScreentextBox.AppendText("System: Gra rozpoczęta!" + "\n");
+            }));
+            gameStarted = true;
         }
 
         private void interpretSystemMsg(string msg)
@@ -84,15 +121,22 @@ namespace projekt
                     this.opponentReadyBox.Invoke(new MethodInvoker(delegate
                     {
                         opponentReadyBox.Checked = true;
-                        if (playerReadyBox.Checked && opponentReadyBox.Checked) //jesli oboje gotowi
-                        {
-                            MessageBox.Show("Czas rozpocząć walkę"); 
-                            loadListOfPicture();
-                            card1.Image = listOfPicture[0];             //pokaz karte id=0
-                            card1.Image.Tag = "0";
-                        }
                     }));
-                    
+                    if (playerNumber == 1)  //serwer sprawdza czy obaj gracze są gotowi
+                    {  
+                        if (playerReadyBox.Checked && opponentReadyBox.Checked)
+                        {
+                            startGame();
+                        }
+                    }    
+                }
+            }
+
+            if (msg.Substring(0, 3) == "GST")        //wiadomosc dotyczy polecenia rozpoczecia gry od serwera
+            {
+                if(playerNumber == 2)
+                {
+                    startGame();
                 }
             }
         }
@@ -112,6 +156,10 @@ namespace projekt
                     }
                     else
                     {
+                        this.Invoke(new MethodInvoker(delegate
+                        {
+                            ChatScreentextBox.AppendText("SysRcv:" + recieve + "\n");  //tylko do debugowania
+                        }));
                         interpretSystemMsg(truncateFirstSign(recieve));
                     }
                     recieve = "";
@@ -139,6 +187,7 @@ namespace projekt
                 STW.AutoFlush = true;
                 backgroundWorker1.RunWorkerAsync();
                 backgroundWorker2.WorkerSupportsCancellation = true;
+                backgroundWorker3.WorkerSupportsCancellation = true;
             }
             else if (!(radioButton1.Checked) && radioButton2.Checked)       //jezeli wybrano klient
             {
@@ -157,6 +206,7 @@ namespace projekt
                         STW.AutoFlush = true;
                         backgroundWorker1.RunWorkerAsync();
                         backgroundWorker2.WorkerSupportsCancellation = true;
+                        backgroundWorker3.WorkerSupportsCancellation = true;
                     }
                 }
                 catch (Exception ex)
@@ -232,19 +282,27 @@ namespace projekt
             
         }
 
-        private void playerReadyButton_Click(object sender, EventArgs e)
+        private void playerReadyButton_Click(object sender, EventArgs e)        //tu trzeba dodac obsluge konca tury 
         {
-            playerReadyBox.Checked = true;
-            sendSystemMsg("RDY" + playerNumber);
-
-            if (playerReadyBox.Checked && opponentReadyBox.Checked)
+            playerReadyBox.Checked = true;  //zaznacz gotowosc gracza do rozpoczecia lub kolejnej tury
+            if (!gameStarted)   //jezeli gra nierozpoczeta, wyslij komunikat o gotowosci
             {
-                MessageBox.Show("Czas rozpocząć walkę");
-                loadListOfPicture();
-
-                card1.Image = listOfPicture[1];
-                card1.Image.Tag = "1";
                 
+                if (playerNumber == 1)  //serwer sprawdza czy obaj gracze są gotowi
+                {
+                    if (playerReadyBox.Checked && opponentReadyBox.Checked) //jezeli obaj gotowi, zacznij gre
+                    {
+                        startGame();
+                    }
+                    else    //jezeli przeciwnik niegotowy, wyslij mu komunikat o swojej gotowosci
+                    {
+                        sendSystemMsg("RDY" + playerNumber);
+                    }
+                }
+                else    //klient jedynie zglasza swoja gotowosc i czeka na odpowiedz serwera
+                {
+                    sendSystemMsg("RDY" + playerNumber);
+                }
             }
         }
 
@@ -263,6 +321,27 @@ namespace projekt
             textBox1.Visible = true;
             textBox1.Text = "Numer karty:"+ card1.Image.Tag.ToString();
             
+        }
+
+        private void backgroundWorker3_DoWork(object sender, DoWorkEventArgs e)         //dodatkowy proces wysylanie w tle gdyby pierwszy byl zajety
+        {
+            if (client.Connected)
+            {
+                STW.WriteLine(TextToSend);
+                if (!isSystemMsg(TextToSend))   //jesli nie jest wiadomoscia systemowa, pokaz na czacie
+                {
+                    this.ChatScreentextBox.Invoke(new MethodInvoker(delegate
+                    {
+                        ChatScreentextBox.AppendText("Ja: " + truncateFirstSign(TextToSend) + "\n");
+                    }));
+                }
+            }
+            else
+            {
+                MessageBox.Show("Sending failed");
+
+            }
+            backgroundWorker3.CancelAsync();
         }
     }
 }

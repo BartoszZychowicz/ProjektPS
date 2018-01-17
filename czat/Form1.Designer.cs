@@ -31,7 +31,7 @@
             this.IPtextBox = new System.Windows.Forms.TextBox();
             this.PorttextBox = new System.Windows.Forms.TextBox();
             this.ChatScreentextBox = new System.Windows.Forms.TextBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBoxConnection = new System.Windows.Forms.GroupBox();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.Startbutton = new System.Windows.Forms.Button();
@@ -41,14 +41,15 @@
             this.MessagetextBox = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBoxChat = new System.Windows.Forms.GroupBox();
             this.playerReadyButton = new System.Windows.Forms.Button();
             this.opponentReadyBox = new System.Windows.Forms.CheckBox();
             this.playerReadyBox = new System.Windows.Forms.CheckBox();
             this.card1 = new System.Windows.Forms.PictureBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
+            this.groupBoxConnection.SuspendLayout();
+            this.groupBoxChat.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.card1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,22 +77,22 @@
             this.ChatScreentextBox.Size = new System.Drawing.Size(219, 441);
             this.ChatScreentextBox.TabIndex = 4;
             // 
-            // groupBox2
+            // groupBoxConnection
             // 
-            this.groupBox2.Controls.Add(this.radioButton2);
-            this.groupBox2.Controls.Add(this.radioButton1);
-            this.groupBox2.Controls.Add(this.Startbutton);
-            this.groupBox2.Controls.Add(this.PORT);
-            this.groupBox2.Controls.Add(this.IP);
-            this.groupBox2.Controls.Add(this.PorttextBox);
-            this.groupBox2.Controls.Add(this.IPtextBox);
-            this.groupBox2.Location = new System.Drawing.Point(12, 12);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1100, 59);
-            this.groupBox2.TabIndex = 6;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Połączenie";
-            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
+            this.groupBoxConnection.Controls.Add(this.radioButton2);
+            this.groupBoxConnection.Controls.Add(this.radioButton1);
+            this.groupBoxConnection.Controls.Add(this.Startbutton);
+            this.groupBoxConnection.Controls.Add(this.PORT);
+            this.groupBoxConnection.Controls.Add(this.IP);
+            this.groupBoxConnection.Controls.Add(this.PorttextBox);
+            this.groupBoxConnection.Controls.Add(this.IPtextBox);
+            this.groupBoxConnection.Location = new System.Drawing.Point(12, 12);
+            this.groupBoxConnection.Name = "groupBoxConnection";
+            this.groupBoxConnection.Size = new System.Drawing.Size(1100, 59);
+            this.groupBoxConnection.TabIndex = 6;
+            this.groupBoxConnection.TabStop = false;
+            this.groupBoxConnection.Text = "Połączenie";
+            this.groupBoxConnection.Enter += new System.EventHandler(this.groupBox2_Enter);
             // 
             // radioButton2
             // 
@@ -170,17 +171,17 @@
             // 
             this.backgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker2_DoWork);
             // 
-            // groupBox1
+            // groupBoxChat
             // 
-            this.groupBox1.Controls.Add(this.Sendbutton);
-            this.groupBox1.Controls.Add(this.MessagetextBox);
-            this.groupBox1.Controls.Add(this.ChatScreentextBox);
-            this.groupBox1.Location = new System.Drawing.Point(12, 77);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(240, 539);
-            this.groupBox1.TabIndex = 9;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Czat";
+            this.groupBoxChat.Controls.Add(this.Sendbutton);
+            this.groupBoxChat.Controls.Add(this.MessagetextBox);
+            this.groupBoxChat.Controls.Add(this.ChatScreentextBox);
+            this.groupBoxChat.Location = new System.Drawing.Point(12, 77);
+            this.groupBoxChat.Name = "groupBoxChat";
+            this.groupBoxChat.Size = new System.Drawing.Size(240, 539);
+            this.groupBoxChat.TabIndex = 9;
+            this.groupBoxChat.TabStop = false;
+            this.groupBoxChat.Text = "Czat";
             // 
             // playerReadyButton
             // 
@@ -236,6 +237,10 @@
             this.textBox1.TabIndex = 16;
             this.textBox1.Visible = false;
             // 
+            // backgroundWorker3
+            // 
+            this.backgroundWorker3.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker3_DoWork);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -246,14 +251,14 @@
             this.Controls.Add(this.playerReadyBox);
             this.Controls.Add(this.opponentReadyBox);
             this.Controls.Add(this.playerReadyButton);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBoxConnection);
+            this.Controls.Add(this.groupBoxChat);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.groupBoxConnection.ResumeLayout(false);
+            this.groupBoxConnection.PerformLayout();
+            this.groupBoxChat.ResumeLayout(false);
+            this.groupBoxChat.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.card1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -265,7 +270,7 @@
         private System.Windows.Forms.TextBox IPtextBox;
         private System.Windows.Forms.TextBox PorttextBox;
         private System.Windows.Forms.TextBox ChatScreentextBox;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBoxConnection;
         private System.Windows.Forms.Button Startbutton;
         private System.Windows.Forms.Label PORT;
         private System.Windows.Forms.Label IP;
@@ -275,12 +280,13 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker2;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBoxChat;
         private System.Windows.Forms.Button playerReadyButton;
         private System.Windows.Forms.CheckBox opponentReadyBox;
         private System.Windows.Forms.CheckBox playerReadyBox;
         private System.Windows.Forms.PictureBox card1;
         private System.Windows.Forms.TextBox textBox1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker3;
     }
 }
 
