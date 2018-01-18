@@ -7,8 +7,8 @@
     <ProjectGuid>{DDB70FAA-912A-4B46-8A03-AE124D1A17AC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>czat</RootNamespace>
-    <AssemblyName>czat</AssemblyName>
+    <RootNamespace>projekt</RootNamespace>
+    <AssemblyName>projekt</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -114,7 +114,61 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <None Include="Resources\rycerz1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="picture\1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="picture\2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="picture\3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="picture\4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="picture\5.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="picture\6.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="picture\7.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="picture\8.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="picture\9.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="picture\10.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="picture\11.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="picture\12.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="picture\13.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="picture\14.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="picture\15.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="picture\16.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rewers.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rycerz2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
