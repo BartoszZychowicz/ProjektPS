@@ -58,7 +58,7 @@ namespace projekt
         {
             groupBox3_Game.Visible = true;
             groupBox4_Hand.Visible = true;
-            groupBox2.Visible = false;
+            groupBoxConnection.Visible = false;
             playerUsedCard.Image = projekt.Properties.Resources.rewers;
             OpponentUsedCard.Image = projekt.Properties.Resources.rewers;
 

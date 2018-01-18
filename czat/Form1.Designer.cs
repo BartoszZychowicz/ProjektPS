@@ -64,8 +64,8 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.playerUsedCard = new System.Windows.Forms.PictureBox();
             this.OpponentUsedCard = new System.Windows.Forms.PictureBox();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.groupBoxConnection.SuspendLayout();
+            this.groupBoxChat.SuspendLayout();
             this.groupBox4_Hand.SuspendLayout();
             this.groupBox3_Game.SuspendLayout();
             //this.textBox1 = new System.Windows.Forms.TextBox();
