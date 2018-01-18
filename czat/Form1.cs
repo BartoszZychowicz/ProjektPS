@@ -46,13 +46,17 @@ namespace projekt
         public Form1()
         {
             InitializeComponent();
-            radioButton1.Checked = true;          
+            radioButton1.Checked = true;
+           
         }
 
         private void ShowGame()
         {
             groupBox3_Game.Visible = true;
             groupBox4_Hand.Visible = true;
+            groupBox2.Visible = false;
+            playerUsedCard.Image = projekt.Properties.Resources.rewers;
+            OpponentUsedCard.Image = projekt.Properties.Resources.rewers;
 
            // Application.VisualStyleState = System.Windows.Forms.VisualStyles.VisualStyleState.NoneEnabled;
 
@@ -143,10 +147,11 @@ namespace projekt
                         opponentReadyBox.Checked = true;
                         if (playerReadyBox.Checked && opponentReadyBox.Checked) //jesli oboje gotowi
                         {
+                            ShowGame();
                             MessageBox.Show("Czas rozpocząć walkę"); 
                             loadListOfPicture();
-                            card1.Image = listOfPicture[0];             //pokaz karte id=0
-                            card1.Image.Tag = "0";
+                           // card1.Image = listOfPicture[0];             //pokaz karte id=0
+                           // card1.Image.Tag = "0";
                         }
                     }));
                     
@@ -296,11 +301,12 @@ namespace projekt
 
             if (playerReadyBox.Checked && opponentReadyBox.Checked)
             {
+                ShowGame();
                 MessageBox.Show("Czas rozpocząć walkę");
                 loadListOfPicture();
 
-                card1.Image = listOfPicture[1];
-                card1.Image.Tag = "1";
+               // card1.Image = listOfPicture[1];
+               // card1.Image.Tag = "1";
                 
             }
         }
@@ -317,13 +323,26 @@ namespace projekt
 
         private void card1_Click(object sender, EventArgs e)
         {
-            textBox1.Visible = true;
-            textBox1.Text = "Numer karty:"+ card1.Image.Tag.ToString();
-            
+            choosecard1.BackColor = Color.DarkGray;
+            choosecard2.BackColor = Color.Transparent;
+            choosecard3.BackColor = Color.Transparent;
+            // textBox1.Visible = true;
+            //textBox1.Text = "Numer karty:"+ card1.Image.Tag.ToString();
+
         }
 
-        
+        private void card2_Click(object sender, EventArgs e)
+        {
+            choosecard1.BackColor = Color.Transparent;
+            choosecard2.BackColor = Color.DarkGray;
+            choosecard3.BackColor = Color.Transparent;
+        }
 
-      
+        private void card3_Click(object sender, EventArgs e)
+        {
+            choosecard1.BackColor = Color.Transparent;
+            choosecard2.BackColor = Color.Transparent;
+            choosecard3.BackColor = Color.DarkGray;
+        }
     }
 }
