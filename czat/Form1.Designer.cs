@@ -267,6 +267,7 @@
             this.groupBox4_Hand.TabIndex = 24;
             this.groupBox4_Hand.TabStop = false;
             this.groupBox4_Hand.Text = "Hand";
+            this.groupBox4_Hand.Visible = false;
             // 
             // card1
             // 
@@ -369,6 +370,7 @@
             this.groupBox3_Game.TabIndex = 23;
             this.groupBox3_Game.TabStop = false;
             this.groupBox3_Game.Text = "Game";
+            this.groupBox3_Game.Visible = false;
             // 
             // opponentLifeLabel
             // 
