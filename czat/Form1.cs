@@ -99,7 +99,6 @@ namespace projekt
             {
                 sendSystemMsg("GST");            //Game Start
             }
-            MessageBox.Show("Czas rozpocząć walkę");
             this.Invoke(new MethodInvoker(delegate
             {
                 playerReadyButton.Text = "Zagraj kartę";
