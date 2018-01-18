@@ -173,10 +173,10 @@ namespace projekt
                 groupBoxConnection.Enabled = false;
                 playerReadyBox.Checked = false;
                 opponentReadyBox.Checked = false;
+                ShowGame();
                 ChatScreentextBox.AppendText("System: Gra rozpoczęta!" + "\n");
             }));
             gameStarted = true;
-            ShowGame();
         }
 
         private void interpretSystemMsg(string msg)
