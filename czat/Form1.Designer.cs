@@ -65,6 +65,8 @@
             this.OpponentUsedCard = new System.Windows.Forms.PictureBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
+            this.playerLifeLabel = new System.Windows.Forms.Label();
+            this.opponentLifeLabel = new System.Windows.Forms.Label();
             this.groupBoxConnection.SuspendLayout();
             this.groupBoxChat.SuspendLayout();
             this.groupBox4_Hand.SuspendLayout();
@@ -329,7 +331,7 @@
             // 
             this.ProgressBarOpponentHp.ForeColor = System.Drawing.Color.Crimson;
             this.ProgressBarOpponentHp.Location = new System.Drawing.Point(451, 28);
-            this.ProgressBarOpponentHp.Maximum = 6;
+            this.ProgressBarOpponentHp.Maximum = 9;
             this.ProgressBarOpponentHp.Name = "ProgressBarOpponentHp";
             this.ProgressBarOpponentHp.Size = new System.Drawing.Size(164, 23);
             this.ProgressBarOpponentHp.TabIndex = 22;
@@ -339,14 +341,17 @@
             // 
             this.ProgressBarPlayerHp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.ProgressBarPlayerHp.Location = new System.Drawing.Point(181, 28);
-            this.ProgressBarPlayerHp.Maximum = 6;
+            this.ProgressBarPlayerHp.Maximum = 9;
             this.ProgressBarPlayerHp.Name = "ProgressBarPlayerHp";
             this.ProgressBarPlayerHp.Size = new System.Drawing.Size(164, 23);
             this.ProgressBarPlayerHp.TabIndex = 21;
             this.ProgressBarPlayerHp.Value = 6;
+            this.ProgressBarPlayerHp.Click += new System.EventHandler(this.ProgressBarPlayerHp_Click);
             // 
             // groupBox3_Game
             // 
+            this.groupBox3_Game.Controls.Add(this.opponentLifeLabel);
+            this.groupBox3_Game.Controls.Add(this.playerLifeLabel);
             this.groupBox3_Game.Controls.Add(this.pictureBox2);
             this.groupBox3_Game.Controls.Add(this.pictureBox1);
             this.groupBox3_Game.Controls.Add(this.labelOpponentHP);
@@ -390,27 +395,27 @@
             this.labelOpponentHP.AutoSize = true;
             this.labelOpponentHP.Location = new System.Drawing.Point(448, 12);
             this.labelOpponentHP.Name = "labelOpponentHP";
-            this.labelOpponentHP.Size = new System.Drawing.Size(54, 13);
+            this.labelOpponentHP.Size = new System.Drawing.Size(80, 13);
             this.labelOpponentHP.TabIndex = 25;
-            this.labelOpponentHP.Text = "Opponent";
+            this.labelOpponentHP.Text = "Opponent\'s life:";
             // 
             // labelPlayerHP
             // 
             this.labelPlayerHP.AutoSize = true;
             this.labelPlayerHP.Location = new System.Drawing.Point(178, 12);
             this.labelPlayerHP.Name = "labelPlayerHP";
-            this.labelPlayerHP.Size = new System.Drawing.Size(26, 13);
+            this.labelPlayerHP.Size = new System.Drawing.Size(48, 13);
             this.labelPlayerHP.TabIndex = 24;
-            this.labelPlayerHP.Text = "You";
+            this.labelPlayerHP.Text = "Your life:";
             // 
             // label_NumberRound
             // 
             this.label_NumberRound.AutoSize = true;
             this.label_NumberRound.Location = new System.Drawing.Point(654, 30);
             this.label_NumberRound.Name = "label_NumberRound";
-            this.label_NumberRound.Size = new System.Drawing.Size(135, 13);
+            this.label_NumberRound.Size = new System.Drawing.Size(62, 13);
             this.label_NumberRound.TabIndex = 23;
-            this.label_NumberRound.Text = "To end game left: 10 round";
+            this.label_NumberRound.Text = "10 turns left";
             // 
             // playerUsedCard
             // 
@@ -439,6 +444,25 @@
             // backgroundWorker3
             // 
             this.backgroundWorker3.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker3_DoWork);
+            // 
+            // playerLifeLabel
+            // 
+            this.playerLifeLabel.AutoSize = true;
+            this.playerLifeLabel.Location = new System.Drawing.Point(232, 12);
+            this.playerLifeLabel.Name = "playerLifeLabel";
+            this.playerLifeLabel.Size = new System.Drawing.Size(13, 13);
+            this.playerLifeLabel.TabIndex = 28;
+            this.playerLifeLabel.Text = "6";
+            // 
+            // opponentLifeLabel
+            // 
+            this.opponentLifeLabel.AutoSize = true;
+            this.opponentLifeLabel.Location = new System.Drawing.Point(534, 12);
+            this.opponentLifeLabel.Name = "opponentLifeLabel";
+            this.opponentLifeLabel.Size = new System.Drawing.Size(13, 13);
+            this.opponentLifeLabel.TabIndex = 29;
+            this.opponentLifeLabel.Text = "6";
+            this.opponentLifeLabel.Click += new System.EventHandler(this.opponentLifeLabel_Click);
             // 
             // Form1
             // 
@@ -515,6 +539,8 @@
         private System.Windows.Forms.PictureBox pictureBox1;
        // private System.Windows.Forms.TextBox textBox1;
         private System.ComponentModel.BackgroundWorker backgroundWorker3;
+        private System.Windows.Forms.Label opponentLifeLabel;
+        private System.Windows.Forms.Label playerLifeLabel;
     }
 }
 

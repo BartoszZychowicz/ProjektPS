@@ -30,24 +30,24 @@ namespace projekt
         public int idOpponentCard = -1;       
         public int RoundNumber = 10;
         List<Image> listOfPicture;
-        public int[] ID = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+        public int[] ID = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
         public string[,] Card = {       //lista kart w talii
-            { "A1","D","0","0"},
-            { "D","0","A1","0"},
-            {"0","A1","D","0" },
-            {"A1","A1","0","0" },
-            {"0","A1","A1","0" },
-            {"0","A2","0","0" },
-            {"A2","0","0","0" },
-            {"0","0","A2","0" },
-            {"D","D","0","0" },
-            {"0","D","D","0" },
-            {"D","D","D","0" },
-            {"0","A4","0","-1" },
-            {"A1","A1","A1","-1" },
-            {"D","0","0","+1" },
-            {"0","D","0","+1" },
-            {"0","0","D","+1" }
+            { "A1","D","0","0"},        // id 0
+            { "D","0","A1","0"},        // 1
+            {"0","A1","D","0" },        // 2
+            {"A1","A1","0","0" },       // 3
+            {"0","A1","A1","0" },       // 4
+            {"0","A2","0","0" },        // 5 
+            {"A2","0","0","0" },        // 6
+            {"0","0","A2","0" },        // 7
+            {"D","D","0","0" },         // 8
+            {"0","D","D","0" },         // 9
+            {"D","D","D","0" },         // 10
+            {"0","A4","0","-1" },       // 11
+            {"A1","A1","A1","-1" },     // 12
+            {"D","0","0","+1" },        // 13
+            {"0","D","0","+1" },        // 14
+            {"0","0","D","+1" }         // 15
         };
         private bool gameStarted = false;
 
@@ -237,21 +237,98 @@ namespace projekt
                     }
                 }
             }
+
+            //tutaj dodac odbieranie przez klienta komunikatu o stanie gry
+
+
+        }
+
+        private bool actionIsAttack(string action)
+        {
+            if(action.Substring(0,1) == "A")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool actionIsDefense(string action)
+        {
+            if (action.Substring(0, 1) == "D")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private int getAttackStrength(string action)
+        {
+            return int.Parse(action.Substring(1, 1));
         }
 
         private void processTurnResult()        //jeszcze niekompletne
         {
             string[] serverCard = {"0", "0", "0", "0"};
             string[] clientCard = {"0", "0", "0", "0"};
-            idPlayerCard = 3;       //poki nie ma pobierania faktycznych numerow
-            idOpponentCard = 7;
+            idPlayerCard = 11;       //poki nie ma pobierania faktycznych numerow
+            idOpponentCard = 14;
             for (int i = 0; i < 4; i++)
             {
                 serverCard[i] = Card[idPlayerCard, i];
                 clientCard[i] = Card[idOpponentCard, i];
             }
-            ChatScreentextBox.AppendText(serverCard[0] + serverCard[1] + serverCard[2] + serverCard[3] + "\n");         //debug
-            ChatScreentextBox.AppendText(clientCard[0] + clientCard[1] + clientCard[2] + clientCard[3] + "\n");         //debug
+            //ChatScreentextBox.AppendText(serverCard[0] + serverCard[1] + serverCard[2] + serverCard[3] + "\n");         //debug
+            //ChatScreentextBox.AppendText(clientCard[0] + clientCard[1] + clientCard[2] + clientCard[3] + "\n");         //debug
+            for(int j=0 ; j < 3 ; j++)      //ataki gora, przod, dol
+            {
+                if (actionIsAttack(serverCard[j]) && !(actionIsDefense(clientCard[j])))     //jezeli serwer wyprowadzil nieobroniony atak
+                {
+                    opponentLife -= getAttackStrength(serverCard[j]);
+                }
+                if (actionIsAttack(clientCard[j]) && !(actionIsDefense(serverCard[j])))     //jezeli serwer wyprowadzil nieobroniony atak
+                {
+                    playerLife -= getAttackStrength(clientCard[j]);
+                }
+            }
+            if(serverCard[3] == "+1")   //zdolnosci specjalne
+            {
+                playerLife += 1;
+            }
+            if (serverCard[3] == "-1")
+            {
+                playerLife -= 1;
+            }
+            if (clientCard[3] == "+1")
+            {
+                opponentLife += 1;
+            }
+            if (clientCard[3] == "-1")
+            {
+                opponentLife -= 1;
+            }
+
+            this.Invoke(new MethodInvoker(delegate
+            {
+                ProgressBarPlayerHp.Value = ((playerLife > 0) ? playerLife : 0);
+                playerLifeLabel.Text = playerLife.ToString();
+                ProgressBarOpponentHp.Value = ((opponentLife > 0) ? opponentLife : 0);
+                opponentLifeLabel.Text = opponentLife.ToString();
+                updateRound();
+                playerReadyBox.Checked = false;
+                opponentReadyBox.Checked = false;
+                playerReadyButton.Enabled = true;
+            }));
+            
+
+            //tutaj dodac wysylanie komunikatu o stanie gry do klienta
+
+
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)     //backgroundworker1 odpowiada za odbieranie w tle
@@ -423,7 +500,8 @@ namespace projekt
             {
                 this.Invoke(new MethodInvoker(delegate
                 {
-                    playerReadyBox.Checked = true;      
+                    playerReadyBox.Checked = true;
+                    playerReadyButton.Enabled = false;
                 }));
 
                 if (playerNumber == 2)  //klient przesyla id wybranej karty
@@ -509,6 +587,16 @@ namespace projekt
 
             }
             backgroundWorker3.CancelAsync();
+        }
+
+        private void ProgressBarPlayerHp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void opponentLifeLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
