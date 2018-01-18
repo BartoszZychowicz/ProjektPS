@@ -47,37 +47,34 @@
             this.opponentReadyBox = new System.Windows.Forms.CheckBox();
             this.playerReadyBox = new System.Windows.Forms.CheckBox();
             this.groupBox4_Hand = new System.Windows.Forms.GroupBox();
-            this.ProgressBarOpponentHp = new System.Windows.Forms.ProgressBar();
-            this.ProgressBarPlayerHp = new System.Windows.Forms.ProgressBar();
-            this.groupBox3_Game = new System.Windows.Forms.GroupBox();
-            this.label_NumberRound = new System.Windows.Forms.Label();
-            this.labelPlayerHP = new System.Windows.Forms.Label();
-            this.labelOpponentHP = new System.Windows.Forms.Label();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.card1 = new System.Windows.Forms.PictureBox();
             this.card2 = new System.Windows.Forms.PictureBox();
             this.card3 = new System.Windows.Forms.PictureBox();
             this.choosecard2 = new System.Windows.Forms.PictureBox();
             this.choosecard1 = new System.Windows.Forms.PictureBox();
             this.choosecard3 = new System.Windows.Forms.PictureBox();
+            this.ProgressBarOpponentHp = new System.Windows.Forms.ProgressBar();
+            this.ProgressBarPlayerHp = new System.Windows.Forms.ProgressBar();
+            this.groupBox3_Game = new System.Windows.Forms.GroupBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.labelOpponentHP = new System.Windows.Forms.Label();
+            this.labelPlayerHP = new System.Windows.Forms.Label();
+            this.label_NumberRound = new System.Windows.Forms.Label();
             this.playerUsedCard = new System.Windows.Forms.PictureBox();
             this.OpponentUsedCard = new System.Windows.Forms.PictureBox();
-            this.groupBoxConnection.SuspendLayout();
-            this.groupBoxChat.SuspendLayout();
-            this.groupBox4_Hand.SuspendLayout();
-            this.groupBox3_Game.SuspendLayout();
-            //this.textBox1 = new System.Windows.Forms.TextBox();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
             this.groupBoxConnection.SuspendLayout();
             this.groupBoxChat.SuspendLayout();
+            this.groupBox4_Hand.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.card1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.card2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.card3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.choosecard2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.choosecard1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.choosecard3)).BeginInit();
+            this.groupBox3_Game.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.playerUsedCard)).BeginInit();
@@ -123,7 +120,7 @@
             this.groupBoxConnection.Size = new System.Drawing.Size(1100, 59);
             this.groupBoxConnection.TabIndex = 6;
             this.groupBoxConnection.TabStop = false;
-            this.groupBoxConnection.Text = "Połączenie";
+            this.groupBoxConnection.Text = "Connection";
             this.groupBoxConnection.Enter += new System.EventHandler(this.groupBox2_Enter);
             // 
             // radioButton2
@@ -134,7 +131,7 @@
             this.radioButton2.Size = new System.Drawing.Size(51, 17);
             this.radioButton2.TabIndex = 6;
             this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Klient";
+            this.radioButton2.Text = "Client";
             this.radioButton2.UseVisualStyleBackColor = true;
             this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
@@ -146,7 +143,7 @@
             this.radioButton1.Size = new System.Drawing.Size(58, 17);
             this.radioButton1.TabIndex = 5;
             this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Serwer";
+            this.radioButton1.Text = "Server";
             this.radioButton1.UseVisualStyleBackColor = true;
             this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
@@ -156,7 +153,7 @@
             this.Startbutton.Name = "Startbutton";
             this.Startbutton.Size = new System.Drawing.Size(75, 23);
             this.Startbutton.TabIndex = 4;
-            this.Startbutton.Text = "Utwórz";
+            this.Startbutton.Text = "Create";
             this.Startbutton.UseVisualStyleBackColor = true;
             this.Startbutton.Click += new System.EventHandler(this.Startbutton_Click);
             // 
@@ -213,7 +210,7 @@
             this.groupBoxChat.Size = new System.Drawing.Size(240, 539);
             this.groupBoxChat.TabIndex = 9;
             this.groupBoxChat.TabStop = false;
-            this.groupBoxChat.Text = "Czat";
+            this.groupBoxChat.Text = "Chat";
             // 
             // playerReadyButton
             // 
@@ -221,7 +218,7 @@
             this.playerReadyButton.Name = "playerReadyButton";
             this.playerReadyButton.Size = new System.Drawing.Size(111, 41);
             this.playerReadyButton.TabIndex = 10;
-            this.playerReadyButton.Text = "gotowy!";
+            this.playerReadyButton.Text = "Ready!";
             this.playerReadyButton.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.playerReadyButton.UseVisualStyleBackColor = true;
             this.playerReadyButton.Click += new System.EventHandler(this.playerReadyButton_Click);
@@ -233,9 +230,9 @@
             this.opponentReadyBox.Enabled = false;
             this.opponentReadyBox.Location = new System.Drawing.Point(980, 538);
             this.opponentReadyBox.Name = "opponentReadyBox";
-            this.opponentReadyBox.Size = new System.Drawing.Size(77, 17);
+            this.opponentReadyBox.Size = new System.Drawing.Size(73, 17);
             this.opponentReadyBox.TabIndex = 11;
-            this.opponentReadyBox.Text = "Przeciwnik";
+            this.opponentReadyBox.Text = "Opponent";
             this.opponentReadyBox.UseVisualStyleBackColor = true;
             this.opponentReadyBox.CheckedChanged += new System.EventHandler(this.opponentReadyBox_CheckedChanged_1);
             // 
@@ -245,9 +242,9 @@
             this.playerReadyBox.Enabled = false;
             this.playerReadyBox.Location = new System.Drawing.Point(980, 515);
             this.playerReadyBox.Name = "playerReadyBox";
-            this.playerReadyBox.Size = new System.Drawing.Size(37, 17);
+            this.playerReadyBox.Size = new System.Drawing.Size(41, 17);
             this.playerReadyBox.TabIndex = 12;
-            this.playerReadyBox.Text = "Ja";
+            this.playerReadyBox.Text = "Me";
             this.playerReadyBox.UseVisualStyleBackColor = true;
             // 
             // groupBox4_Hand
@@ -266,79 +263,6 @@
             this.groupBox4_Hand.TabStop = false;
             this.groupBox4_Hand.Text = "Hand";
             this.groupBox4_Hand.Visible = false;
-            // 
-            // ProgressBarOpponentHp
-            // 
-            this.ProgressBarOpponentHp.ForeColor = System.Drawing.Color.Crimson;
-            this.ProgressBarOpponentHp.Location = new System.Drawing.Point(451, 28);
-            this.ProgressBarOpponentHp.Maximum = 6;
-            this.ProgressBarOpponentHp.Name = "ProgressBarOpponentHp";
-            this.ProgressBarOpponentHp.Size = new System.Drawing.Size(164, 23);
-            this.ProgressBarOpponentHp.TabIndex = 22;
-            this.ProgressBarOpponentHp.Value = 6;
-            // 
-            // ProgressBarPlayerHp
-            // 
-            this.ProgressBarPlayerHp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.ProgressBarPlayerHp.Location = new System.Drawing.Point(181, 28);
-            this.ProgressBarPlayerHp.Maximum = 6;
-            this.ProgressBarPlayerHp.Name = "ProgressBarPlayerHp";
-            this.ProgressBarPlayerHp.Size = new System.Drawing.Size(164, 23);
-            this.ProgressBarPlayerHp.TabIndex = 21;
-            this.ProgressBarPlayerHp.Value = 6;
-            // 
-            // groupBox3_Game
-            // 
-            this.groupBox3_Game.Controls.Add(this.pictureBox2);
-            this.groupBox3_Game.Controls.Add(this.pictureBox1);
-            this.groupBox3_Game.Controls.Add(this.labelOpponentHP);
-            this.groupBox3_Game.Controls.Add(this.labelPlayerHP);
-            this.groupBox3_Game.Controls.Add(this.label_NumberRound);
-            this.groupBox3_Game.Controls.Add(this.playerUsedCard);
-            this.groupBox3_Game.Controls.Add(this.ProgressBarPlayerHp);
-            this.groupBox3_Game.Controls.Add(this.ProgressBarOpponentHp);
-            this.groupBox3_Game.Controls.Add(this.OpponentUsedCard);
-            this.groupBox3_Game.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.groupBox3_Game.Location = new System.Drawing.Point(270, 77);
-            this.groupBox3_Game.Name = "groupBox3_Game";
-            this.groupBox3_Game.Size = new System.Drawing.Size(795, 338);
-            this.groupBox3_Game.TabIndex = 23;
-            this.groupBox3_Game.TabStop = false;
-            this.groupBox3_Game.Text = "Game";
-            this.groupBox3_Game.Visible = false;
-            // 
-            // label_NumberRound
-            // 
-            this.label_NumberRound.AutoSize = true;
-            this.label_NumberRound.Location = new System.Drawing.Point(654, 30);
-            this.label_NumberRound.Name = "label_NumberRound";
-            this.label_NumberRound.Size = new System.Drawing.Size(135, 13);
-            this.label_NumberRound.TabIndex = 23;
-            this.label_NumberRound.Text = "To end game left: 10 round";
-            // 
-            // labelPlayerHP
-            // 
-            this.labelPlayerHP.AutoSize = true;
-            this.labelPlayerHP.Location = new System.Drawing.Point(178, 12);
-            this.labelPlayerHP.Name = "labelPlayerHP";
-            this.labelPlayerHP.Size = new System.Drawing.Size(26, 13);
-            this.labelPlayerHP.TabIndex = 24;
-            this.labelPlayerHP.Text = "You";
-            // 
-            // labelOpponentHP
-            // 
-            this.labelOpponentHP.AutoSize = true;
-            this.labelOpponentHP.Location = new System.Drawing.Point(448, 12);
-            this.labelOpponentHP.Name = "labelOpponentHP";
-            this.labelOpponentHP.Size = new System.Drawing.Size(54, 13);
-            this.labelOpponentHP.TabIndex = 25;
-            this.labelOpponentHP.Text = "Opponent";
-            // 
-            // imageList1
-            // 
-            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // card1
             // 
@@ -400,6 +324,46 @@
             this.choosecard3.TabIndex = 21;
             this.choosecard3.TabStop = false;
             // 
+            // ProgressBarOpponentHp
+            // 
+            this.ProgressBarOpponentHp.ForeColor = System.Drawing.Color.Crimson;
+            this.ProgressBarOpponentHp.Location = new System.Drawing.Point(451, 28);
+            this.ProgressBarOpponentHp.Maximum = 6;
+            this.ProgressBarOpponentHp.Name = "ProgressBarOpponentHp";
+            this.ProgressBarOpponentHp.Size = new System.Drawing.Size(164, 23);
+            this.ProgressBarOpponentHp.TabIndex = 22;
+            this.ProgressBarOpponentHp.Value = 6;
+            // 
+            // ProgressBarPlayerHp
+            // 
+            this.ProgressBarPlayerHp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.ProgressBarPlayerHp.Location = new System.Drawing.Point(181, 28);
+            this.ProgressBarPlayerHp.Maximum = 6;
+            this.ProgressBarPlayerHp.Name = "ProgressBarPlayerHp";
+            this.ProgressBarPlayerHp.Size = new System.Drawing.Size(164, 23);
+            this.ProgressBarPlayerHp.TabIndex = 21;
+            this.ProgressBarPlayerHp.Value = 6;
+            // 
+            // groupBox3_Game
+            // 
+            this.groupBox3_Game.Controls.Add(this.pictureBox2);
+            this.groupBox3_Game.Controls.Add(this.pictureBox1);
+            this.groupBox3_Game.Controls.Add(this.labelOpponentHP);
+            this.groupBox3_Game.Controls.Add(this.labelPlayerHP);
+            this.groupBox3_Game.Controls.Add(this.label_NumberRound);
+            this.groupBox3_Game.Controls.Add(this.playerUsedCard);
+            this.groupBox3_Game.Controls.Add(this.ProgressBarPlayerHp);
+            this.groupBox3_Game.Controls.Add(this.ProgressBarOpponentHp);
+            this.groupBox3_Game.Controls.Add(this.OpponentUsedCard);
+            this.groupBox3_Game.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.groupBox3_Game.Location = new System.Drawing.Point(270, 77);
+            this.groupBox3_Game.Name = "groupBox3_Game";
+            this.groupBox3_Game.Size = new System.Drawing.Size(795, 338);
+            this.groupBox3_Game.TabIndex = 23;
+            this.groupBox3_Game.TabStop = false;
+            this.groupBox3_Game.Text = "Game";
+            this.groupBox3_Game.Visible = false;
+            // 
             // pictureBox2
             // 
             this.pictureBox2.Image = global::projekt.Properties.Resources.rycerz2;
@@ -420,6 +384,33 @@
             this.pictureBox1.TabIndex = 26;
             this.pictureBox1.TabStop = false;
             // 
+            // labelOpponentHP
+            // 
+            this.labelOpponentHP.AutoSize = true;
+            this.labelOpponentHP.Location = new System.Drawing.Point(448, 12);
+            this.labelOpponentHP.Name = "labelOpponentHP";
+            this.labelOpponentHP.Size = new System.Drawing.Size(54, 13);
+            this.labelOpponentHP.TabIndex = 25;
+            this.labelOpponentHP.Text = "Opponent";
+            // 
+            // labelPlayerHP
+            // 
+            this.labelPlayerHP.AutoSize = true;
+            this.labelPlayerHP.Location = new System.Drawing.Point(178, 12);
+            this.labelPlayerHP.Name = "labelPlayerHP";
+            this.labelPlayerHP.Size = new System.Drawing.Size(26, 13);
+            this.labelPlayerHP.TabIndex = 24;
+            this.labelPlayerHP.Text = "You";
+            // 
+            // label_NumberRound
+            // 
+            this.label_NumberRound.AutoSize = true;
+            this.label_NumberRound.Location = new System.Drawing.Point(654, 30);
+            this.label_NumberRound.Name = "label_NumberRound";
+            this.label_NumberRound.Size = new System.Drawing.Size(135, 13);
+            this.label_NumberRound.TabIndex = 23;
+            this.label_NumberRound.Text = "To end game left: 10 round";
+            // 
             // playerUsedCard
             // 
             this.playerUsedCard.Location = new System.Drawing.Point(18, 91);
@@ -437,6 +428,12 @@
             this.OpponentUsedCard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.OpponentUsedCard.TabIndex = 20;
             this.OpponentUsedCard.TabStop = false;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // backgroundWorker3
             // 
@@ -460,16 +457,15 @@
             this.groupBoxConnection.PerformLayout();
             this.groupBoxChat.ResumeLayout(false);
             this.groupBoxChat.PerformLayout();
-         
             this.groupBox4_Hand.ResumeLayout(false);
-            this.groupBox3_Game.ResumeLayout(false);
-            this.groupBox3_Game.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.card1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.card2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.card3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.choosecard2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.choosecard1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.choosecard3)).EndInit();
+            this.groupBox3_Game.ResumeLayout(false);
+            this.groupBox3_Game.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.playerUsedCard)).EndInit();

@@ -27,7 +27,7 @@ namespace projekt
         public int RoundNumber = 10;
         List<Image> listOfPicture;
         public int[] ID = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
-        public string[,] Card = {
+        public string[,] Card = {       //lista kart w talii
             { "A1","D","0","0"},
             { "D","0","A1","0"},
             {"0","A1","D","0" },
@@ -71,12 +71,12 @@ namespace projekt
             if (RoundNumber > 1)
             {
                 RoundNumber = RoundNumber - 1;
-                label_NumberRound.Text = "To end game left: " + RoundNumber + " round";
+                label_NumberRound.Text = RoundNumber + " turns left";
             }
             else
             {
                 RoundNumber = RoundNumber - 1;
-                label_NumberRound.Text = "This is last round";
+                label_NumberRound.Text = "Last round";
             }
 
         }
@@ -168,13 +168,13 @@ namespace projekt
             }
             this.Invoke(new MethodInvoker(delegate
             {
-                playerReadyButton.Text = "Zagraj kartę";
+                playerReadyButton.Text = "Play selected card";
                 playerReadyButton.Enabled = false;
                 groupBoxConnection.Enabled = false;
                 playerReadyBox.Checked = false;
                 opponentReadyBox.Checked = false;
                 ShowGame();
-                ChatScreentextBox.AppendText("System: Gra rozpoczęta!" + "\n");
+                ChatScreentextBox.AppendText("System: Game started!" + "\n");
             }));
             gameStarted = true;
         }
@@ -218,7 +218,7 @@ namespace projekt
                     if (!(isSystemMsg(recieve))) { //jezeli komenda nie jest systemowa, wyswietla ja na czacie
                         this.ChatScreentextBox.Invoke(new MethodInvoker(delegate ()
                         {
-                            ChatScreentextBox.AppendText("Przeciwnik: " + truncateFirstSign(recieve) + "\n");
+                            ChatScreentextBox.AppendText("Opponent: " + truncateFirstSign(recieve) + "\n");
                         }));
                     }
                     else
@@ -292,7 +292,7 @@ namespace projekt
                 {
                     this.ChatScreentextBox.Invoke(new MethodInvoker(delegate
                     {
-                        ChatScreentextBox.AppendText("Ja: " + truncateFirstSign(TextToSend) + "\n");
+                        ChatScreentextBox.AppendText("Me: " + truncateFirstSign(TextToSend) + "\n");
                     }));
                 }
             }
@@ -335,12 +335,12 @@ namespace projekt
                         IPtextBox.Text = address.ToString();
                     }
                 }
-                Startbutton.Text = "Utwórz";
+                Startbutton.Text = "Create";
             }
             else
             {
                 IPtextBox.Text = String.Empty;
-                Startbutton.Text = "Połącz";
+                Startbutton.Text = "Connect";
             }
         }
 
@@ -416,7 +416,7 @@ namespace projekt
                 {
                     this.ChatScreentextBox.Invoke(new MethodInvoker(delegate
                     {
-                        ChatScreentextBox.AppendText("Ja: " + truncateFirstSign(TextToSend) + "\n");
+                        ChatScreentextBox.AppendText("Me: " + truncateFirstSign(TextToSend) + "\n");
                     }));
                 }
             }
