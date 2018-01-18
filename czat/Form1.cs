@@ -24,6 +24,10 @@ namespace projekt
         public string TextToSend;
         public int playerNumber;
         public int opponentNumber;
+        public int playerLife = 6;
+        public int opponentLife = 6;
+        public int idPlayerCard = -1;       //na poczatku gry zadne karty nie byly jeszcze wybrane, stan neutralny to id = -1
+        public int idOpponentCard = -1;       
         public int RoundNumber = 10;
         List<Image> listOfPicture;
         public int[] ID = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
@@ -206,6 +210,48 @@ namespace projekt
                     startGame();
                 }
             }
+
+            if(msg.Substring(0, 3) == "CDR")        //serwer zglasza klientowi, ze wybral juz swoja karte
+            {
+                if(playerNumber == 2)
+                {
+                    this.Invoke(new MethodInvoker(delegate
+                    {
+                        opponentReadyBox.Checked = true;
+                    }));
+                }
+            }
+
+            if (msg.Substring(0, 3) == "CPI")        //klient wysyla serwerowi wybrana przez siebie karte
+            {
+                if (playerNumber == 1)
+                {
+                    idOpponentCard = Int32.Parse(msg.Substring(3, 1));      //4-ty znak to id wybranej karty
+                    this.Invoke(new MethodInvoker(delegate
+                    {
+                        opponentReadyBox.Checked = true;
+                    }));
+                    if (playerReadyBox.Checked == true && opponentReadyBox.Checked == true)  //jezeli obaj gotowi, serwer finalizuje ture
+                    {
+                        processTurnResult();
+                    }
+                }
+            }
+        }
+
+        private void processTurnResult()        //jeszcze niekompletne
+        {
+            string[] serverCard = {"0", "0", "0", "0"};
+            string[] clientCard = {"0", "0", "0", "0"};
+            idPlayerCard = 3;       //poki nie ma pobierania faktycznych numerow
+            idOpponentCard = 7;
+            for (int i = 0; i < 4; i++)
+            {
+                serverCard[i] = Card[idPlayerCard, i];
+                clientCard[i] = Card[idOpponentCard, i];
+            }
+            ChatScreentextBox.AppendText(serverCard[0] + serverCard[1] + serverCard[2] + serverCard[3] + "\n");         //debug
+            ChatScreentextBox.AppendText(clientCard[0] + clientCard[1] + clientCard[2] + clientCard[3] + "\n");         //debug
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)     //backgroundworker1 odpowiada za odbieranie w tle
@@ -247,6 +293,7 @@ namespace projekt
                 ChatScreentextBox.AppendText("Server is up and running!" + "\n");
                 client = listener.AcceptTcpClient();                // blokuje program do uzyskania polaczenia, moze warto by to zmienic/robic to w tle?  
                 ChatScreentextBox.AppendText("Client " + ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString() + " just connected!" + "\n");
+                playerReadyButton.Enabled = true;
                 playerNumber = 1;       //gracz serwer ma numer 1
                 opponentNumber = 2;
                 STR = new StreamReader(client.GetStream());
@@ -266,6 +313,7 @@ namespace projekt
                     if (client.Connected)
                     {
                         ChatScreentextBox.AppendText("Connected to Server " + IpEnd + "\n");
+                        playerReadyButton.Enabled = true;
                         playerNumber = 2;
                         opponentNumber = 1;
                         STR = new StreamReader(client.GetStream());
@@ -371,6 +419,37 @@ namespace projekt
                     sendSystemMsg("RDY" + playerNumber);
                 }
             }
+            else    //jezeli gra rozpoczeta, przycisk zatwierdza wykonanie ruchu
+            {
+                this.Invoke(new MethodInvoker(delegate
+                {
+                    playerReadyBox.Checked = true;      
+                }));
+
+                if (playerNumber == 2)  //klient przesyla id wybranej karty
+                {
+
+                    //======================================TUTAJ DODAC FAKTYCZNIE WYBRANE ID=======================================
+
+                    idPlayerCard = 5;
+                    sendSystemMsg("CPI" + "5");                                    //Card Played Id   
+                    
+                }
+                else if(playerNumber == 1)
+                {
+                    if(playerReadyBox.Checked == true && opponentReadyBox.Checked == true)  //jezeli obaj gotowi, serwer finalizuje ture
+                    {
+                        processTurnResult();
+                    }
+                    else            //jezeli klient niegotowy, serwer wysyla informacje o gotowosci i czeka
+                    {
+                        sendSystemMsg("CDR");               //CarD Ready
+                    }
+                }    
+
+            }
+
+
         }
 
         private void opponentReadyBox_CheckedChanged(object sender, EventArgs e)
@@ -388,6 +467,8 @@ namespace projekt
             choosecard1.BackColor = Color.DarkGray;
             choosecard2.BackColor = Color.Transparent;
             choosecard3.BackColor = Color.Transparent;
+            playerReadyButton.Enabled = true;
+
             // textBox1.Visible = true;
             //textBox1.Text = "Numer karty:"+ card1.Image.Tag.ToString();
 
@@ -398,6 +479,7 @@ namespace projekt
             choosecard1.BackColor = Color.Transparent;
             choosecard2.BackColor = Color.DarkGray;
             choosecard3.BackColor = Color.Transparent;
+            playerReadyButton.Enabled = true;
         }
 
         private void card3_Click(object sender, EventArgs e)
@@ -405,6 +487,7 @@ namespace projekt
             choosecard1.BackColor = Color.Transparent;
             choosecard2.BackColor = Color.Transparent;
             choosecard3.BackColor = Color.DarkGray;
+            playerReadyButton.Enabled = true;
         }
 
         private void backgroundWorker3_DoWork(object sender, DoWorkEventArgs e)         //dodatkowy proces wysylanie w tle gdyby pierwszy byl zajety
