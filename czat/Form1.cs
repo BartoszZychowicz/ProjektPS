@@ -28,9 +28,12 @@ namespace projekt
         public int opponentLife = 6;
         public int idPlayerCard = -1;       //na poczatku gry zadne karty nie byly jeszcze wybrane, stan neutralny to id = -1
         public int idOpponentCard = -1;       
-        public int RoundNumber = 10;
+        public int TurnLeft = 10;
+        public int RoundNumber = 1;
         List<Image> listOfPicture;
         public int[] ID = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+        public int[] playerDeck = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+        public int[] opponentDeck = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
         public string[,] Card = {       //lista kart w talii
             { "A1","D","0","0"},        // id 0
             { "D","0","A1","0"},        // 1
@@ -51,11 +54,17 @@ namespace projekt
         };
         private bool gameStarted = false;
 
+/// <summary>
+/// //////////////////////////////////////////////////////////Funkcje////////////////////////////////////////////////////////
+/// </summary>
         public Form1()
         {
             InitializeComponent();
             radioButton1.Checked = true;
-           
+            playerDeck = shuffle(ID);
+            loadListOfPicture();
+            loadHand(playerDeck);
+
         }
 
         private void ShowGame()
@@ -72,14 +81,14 @@ namespace projekt
 
         private void updateRound()
         {
-            if (RoundNumber > 1)
+            if (TurnLeft > 1)
             {
-                RoundNumber = RoundNumber - 1;
-                label_NumberRound.Text = RoundNumber + " turns left";
+                TurnLeft = TurnLeft - 1;
+                label_NumberRound.Text = TurnLeft + " turns left";
             }
             else
             {
-                RoundNumber = RoundNumber - 1;
+                TurnLeft = TurnLeft - 1;
                 label_NumberRound.Text = "Last round";
             }
 
@@ -105,10 +114,7 @@ namespace projekt
             listOfPicture.Add(projekt.Properties.Resources._13);
             listOfPicture.Add(projekt.Properties.Resources._14);
             listOfPicture.Add(projekt.Properties.Resources._15);
-            listOfPicture.Add(projekt.Properties.Resources._16);
-            
-
-
+            listOfPicture.Add(projekt.Properties.Resources._16);            
         }
         private bool isSystemMsg(string msg)        //sprawdza czy wiadomosc jest systemowa czy pochodzi z czatu
         {
@@ -502,6 +508,7 @@ namespace projekt
                 {
                     playerReadyBox.Checked = true;
                     playerReadyButton.Enabled = false;
+                    
                 }));
 
                 if (playerNumber == 2)  //klient przesyla id wybranej karty
@@ -567,6 +574,13 @@ namespace projekt
             choosecard3.BackColor = Color.DarkGray;
             playerReadyButton.Enabled = true;
         }
+        private void uncheckedCards()
+        {
+            choosecard1.BackColor = Color.Transparent;
+            choosecard2.BackColor = Color.Transparent;
+            choosecard3.BackColor = Color.Transparent;
+       
+        }
 
         private void backgroundWorker3_DoWork(object sender, DoWorkEventArgs e)         //dodatkowy proces wysylanie w tle gdyby pierwszy byl zajety
         {
@@ -597,6 +611,90 @@ namespace projekt
         private void opponentLifeLabel_Click(object sender, EventArgs e)
         {
 
+        }
+
+        public int[] shuffle(int[] table) // przyklad uzycia playerDeck = shuffle(ID);
+        {
+            Random rnd = new Random();
+            int[] tableafter = table.OrderBy(x => rnd.Next()).ToArray();            
+            return tableafter;
+        }
+
+        public void loadHand(int[] table)
+        {
+            card1.Image = listOfPicture[table[0]];
+            card1.Image.Tag = "0";
+            card2.Image = listOfPicture[table[1]];
+            card2.Image.Tag = "1";
+            card3.Image = listOfPicture[table[2]];
+            card3.Image.Tag = "2";
+        }
+
+        public int whichCardIsUsed(int[] table)
+        {
+
+            int idUsedCard;
+            if (choosecard1.BackColor == Color.DarkGray)
+            {
+                idUsedCard = table[Convert.ToInt16(card1.Image.Tag)];               
+            }
+            else if (choosecard2.BackColor == Color.DarkGray)
+            {
+                idUsedCard = table[Convert.ToInt16(card2.Image.Tag)];        
+            }
+            else
+            {
+                idUsedCard = table[Convert.ToInt16(card3.Image.Tag)];                
+            }
+
+
+            return idUsedCard; 
+        }
+
+        public void loadNewCard(int[] table)
+        {
+            if(choosecard1.BackColor==Color.DarkGray)
+            {
+                
+                card1.Image = listOfPicture[table[RoundNumber + 2]];
+                card1.Image.Tag = Convert.ToString(RoundNumber + 2);
+               
+            }
+            else if (choosecard2.BackColor == Color.DarkGray)
+            {
+               
+                card2.Image = listOfPicture[table[RoundNumber + 2]];
+                card2.Image.Tag = Convert.ToString(RoundNumber + 2);
+                
+            }
+            else if (choosecard3.BackColor == Color.DarkGray)
+            {
+               
+                card3.Image = listOfPicture[table[RoundNumber + 2]];
+                card3.Image.Tag = Convert.ToString(RoundNumber + 2);
+               
+            }
+
+        }
+        private void showPlayerUsedCard(int[] table, int id)
+        {
+            
+            playerUsedCard.Image = listOfPicture[id];
+        }
+        private void showOpponentrUsedCard(int[] table, int id)
+        {
+            OpponentUsedCard.Image = listOfPicture[id];
+        }
+
+        private void button1_Click(object sender, EventArgs e) //obrazowa kolejnosc jednej tury 
+        {            
+            idPlayerCard= whichCardIsUsed(playerDeck);            
+            showPlayerUsedCard(playerDeck, idPlayerCard);
+            //podsumowanie zycia
+            loadNewCard(playerDeck);           
+            uncheckedCards();
+            RoundNumber++;
+            
         }
     }
 }

@@ -56,6 +56,8 @@
             this.ProgressBarOpponentHp = new System.Windows.Forms.ProgressBar();
             this.ProgressBarPlayerHp = new System.Windows.Forms.ProgressBar();
             this.groupBox3_Game = new System.Windows.Forms.GroupBox();
+            this.opponentLifeLabel = new System.Windows.Forms.Label();
+            this.playerLifeLabel = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labelOpponentHP = new System.Windows.Forms.Label();
@@ -65,8 +67,7 @@
             this.OpponentUsedCard = new System.Windows.Forms.PictureBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
-            this.playerLifeLabel = new System.Windows.Forms.Label();
-            this.opponentLifeLabel = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBoxConnection.SuspendLayout();
             this.groupBoxChat.SuspendLayout();
             this.groupBox4_Hand.SuspendLayout();
@@ -252,6 +253,7 @@
             // 
             // groupBox4_Hand
             // 
+            this.groupBox4_Hand.Controls.Add(this.button1);
             this.groupBox4_Hand.Controls.Add(this.card1);
             this.groupBox4_Hand.Controls.Add(this.card2);
             this.groupBox4_Hand.Controls.Add(this.card3);
@@ -265,7 +267,6 @@
             this.groupBox4_Hand.TabIndex = 24;
             this.groupBox4_Hand.TabStop = false;
             this.groupBox4_Hand.Text = "Hand";
-            this.groupBox4_Hand.Visible = false;
             // 
             // card1
             // 
@@ -368,7 +369,25 @@
             this.groupBox3_Game.TabIndex = 23;
             this.groupBox3_Game.TabStop = false;
             this.groupBox3_Game.Text = "Game";
-            this.groupBox3_Game.Visible = false;
+            // 
+            // opponentLifeLabel
+            // 
+            this.opponentLifeLabel.AutoSize = true;
+            this.opponentLifeLabel.Location = new System.Drawing.Point(534, 12);
+            this.opponentLifeLabel.Name = "opponentLifeLabel";
+            this.opponentLifeLabel.Size = new System.Drawing.Size(13, 13);
+            this.opponentLifeLabel.TabIndex = 29;
+            this.opponentLifeLabel.Text = "6";
+            this.opponentLifeLabel.Click += new System.EventHandler(this.opponentLifeLabel_Click);
+            // 
+            // playerLifeLabel
+            // 
+            this.playerLifeLabel.AutoSize = true;
+            this.playerLifeLabel.Location = new System.Drawing.Point(232, 12);
+            this.playerLifeLabel.Name = "playerLifeLabel";
+            this.playerLifeLabel.Size = new System.Drawing.Size(13, 13);
+            this.playerLifeLabel.TabIndex = 28;
+            this.playerLifeLabel.Text = "6";
             // 
             // pictureBox2
             // 
@@ -445,24 +464,15 @@
             // 
             this.backgroundWorker3.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker3_DoWork);
             // 
-            // playerLifeLabel
+            // button1
             // 
-            this.playerLifeLabel.AutoSize = true;
-            this.playerLifeLabel.Location = new System.Drawing.Point(232, 12);
-            this.playerLifeLabel.Name = "playerLifeLabel";
-            this.playerLifeLabel.Size = new System.Drawing.Size(13, 13);
-            this.playerLifeLabel.TabIndex = 28;
-            this.playerLifeLabel.Text = "6";
-            // 
-            // opponentLifeLabel
-            // 
-            this.opponentLifeLabel.AutoSize = true;
-            this.opponentLifeLabel.Location = new System.Drawing.Point(534, 12);
-            this.opponentLifeLabel.Name = "opponentLifeLabel";
-            this.opponentLifeLabel.Size = new System.Drawing.Size(13, 13);
-            this.opponentLifeLabel.TabIndex = 29;
-            this.opponentLifeLabel.Text = "6";
-            this.opponentLifeLabel.Click += new System.EventHandler(this.opponentLifeLabel_Click);
+            this.button1.Location = new System.Drawing.Point(642, 58);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(44, 24);
+            this.button1.TabIndex = 23;
+            this.button1.Text = "next";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
@@ -541,6 +551,7 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker3;
         private System.Windows.Forms.Label opponentLifeLabel;
         private System.Windows.Forms.Label playerLifeLabel;
+        private System.Windows.Forms.Button button1;
     }
 }
 
