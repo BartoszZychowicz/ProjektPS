@@ -47,9 +47,24 @@
             this.playerReadyBox = new System.Windows.Forms.CheckBox();
             this.card1 = new System.Windows.Forms.PictureBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.card2 = new System.Windows.Forms.PictureBox();
+            this.card3 = new System.Windows.Forms.PictureBox();
+            this.groupBox4_Hand = new System.Windows.Forms.GroupBox();
+            this.OpponentUsedCard = new System.Windows.Forms.PictureBox();
+            this.ProgressBarOpponentHp = new System.Windows.Forms.ProgressBar();
+            this.ProgressBarPlayerHp = new System.Windows.Forms.ProgressBar();
+            this.playerUsedCard = new System.Windows.Forms.PictureBox();
+            this.groupBox3_Game = new System.Windows.Forms.GroupBox();
+            this.label_NumberRound = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.card1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.card2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.card3)).BeginInit();
+            this.groupBox4_Hand.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.OpponentUsedCard)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.playerUsedCard)).BeginInit();
+            this.groupBox3_Game.SuspendLayout();
             this.SuspendLayout();
             // 
             // IPtextBox
@@ -219,35 +234,129 @@
             // 
             // card1
             // 
-            this.card1.Location = new System.Drawing.Point(525, 202);
+            this.card1.Location = new System.Drawing.Point(94, 8);
             this.card1.Name = "card1";
-            this.card1.Size = new System.Drawing.Size(157, 195);
+            this.card1.Size = new System.Drawing.Size(124, 168);
             this.card1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.card1.TabIndex = 15;
             this.card1.TabStop = false;
-            this.card1.Visible = false;
             this.card1.Click += new System.EventHandler(this.card1_Click);
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(506, 438);
+            this.textBox1.Location = new System.Drawing.Point(6, 19);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.Size = new System.Drawing.Size(60, 20);
             this.textBox1.TabIndex = 16;
             this.textBox1.Visible = false;
+            // 
+            // card2
+            // 
+            this.card2.Location = new System.Drawing.Point(291, 7);
+            this.card2.Name = "card2";
+            this.card2.Size = new System.Drawing.Size(124, 168);
+            this.card2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.card2.TabIndex = 17;
+            this.card2.TabStop = false;
+            // 
+            // card3
+            // 
+            this.card3.Location = new System.Drawing.Point(491, 7);
+            this.card3.Name = "card3";
+            this.card3.Size = new System.Drawing.Size(124, 168);
+            this.card3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.card3.TabIndex = 18;
+            this.card3.TabStop = false;
+            // 
+            // groupBox4_Hand
+            // 
+            this.groupBox4_Hand.Controls.Add(this.card1);
+            this.groupBox4_Hand.Controls.Add(this.card2);
+            this.groupBox4_Hand.Controls.Add(this.card3);
+            this.groupBox4_Hand.Controls.Add(this.textBox1);
+            this.groupBox4_Hand.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.groupBox4_Hand.Location = new System.Drawing.Point(270, 421);
+            this.groupBox4_Hand.Name = "groupBox4_Hand";
+            this.groupBox4_Hand.Size = new System.Drawing.Size(704, 181);
+            this.groupBox4_Hand.TabIndex = 24;
+            this.groupBox4_Hand.TabStop = false;
+            this.groupBox4_Hand.Text = "Hand";
+            this.groupBox4_Hand.Visible = false;
+            // 
+            // OpponentUsedCard
+            // 
+            this.OpponentUsedCard.Location = new System.Drawing.Point(651, 91);
+            this.OpponentUsedCard.Name = "OpponentUsedCard";
+            this.OpponentUsedCard.Size = new System.Drawing.Size(124, 168);
+            this.OpponentUsedCard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.OpponentUsedCard.TabIndex = 20;
+            this.OpponentUsedCard.TabStop = false;
+            // 
+            // ProgressBarOpponentHp
+            // 
+            this.ProgressBarOpponentHp.ForeColor = System.Drawing.Color.Crimson;
+            this.ProgressBarOpponentHp.Location = new System.Drawing.Point(451, 28);
+            this.ProgressBarOpponentHp.Maximum = 6;
+            this.ProgressBarOpponentHp.Name = "ProgressBarOpponentHp";
+            this.ProgressBarOpponentHp.Size = new System.Drawing.Size(164, 23);
+            this.ProgressBarOpponentHp.TabIndex = 22;
+            this.ProgressBarOpponentHp.Value = 5;
+            // 
+            // ProgressBarPlayerHp
+            // 
+            this.ProgressBarPlayerHp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.ProgressBarPlayerHp.Location = new System.Drawing.Point(181, 28);
+            this.ProgressBarPlayerHp.Maximum = 6;
+            this.ProgressBarPlayerHp.Name = "ProgressBarPlayerHp";
+            this.ProgressBarPlayerHp.Size = new System.Drawing.Size(164, 23);
+            this.ProgressBarPlayerHp.TabIndex = 21;
+            this.ProgressBarPlayerHp.Value = 3;
+            // 
+            // playerUsedCard
+            // 
+            this.playerUsedCard.Location = new System.Drawing.Point(18, 91);
+            this.playerUsedCard.Name = "playerUsedCard";
+            this.playerUsedCard.Size = new System.Drawing.Size(124, 168);
+            this.playerUsedCard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.playerUsedCard.TabIndex = 19;
+            this.playerUsedCard.TabStop = false;
+            // 
+            // groupBox3_Game
+            // 
+            this.groupBox3_Game.Controls.Add(this.label_NumberRound);
+            this.groupBox3_Game.Controls.Add(this.playerUsedCard);
+            this.groupBox3_Game.Controls.Add(this.ProgressBarPlayerHp);
+            this.groupBox3_Game.Controls.Add(this.ProgressBarOpponentHp);
+            this.groupBox3_Game.Controls.Add(this.OpponentUsedCard);
+            this.groupBox3_Game.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.groupBox3_Game.Location = new System.Drawing.Point(270, 77);
+            this.groupBox3_Game.Name = "groupBox3_Game";
+            this.groupBox3_Game.Size = new System.Drawing.Size(795, 338);
+            this.groupBox3_Game.TabIndex = 23;
+            this.groupBox3_Game.TabStop = false;
+            this.groupBox3_Game.Text = "Game";
+            // 
+            // label_NumberRound
+            // 
+            this.label_NumberRound.AutoSize = true;
+            this.label_NumberRound.Location = new System.Drawing.Point(654, 30);
+            this.label_NumberRound.Name = "label_NumberRound";
+            this.label_NumberRound.Size = new System.Drawing.Size(135, 13);
+            this.label_NumberRound.TabIndex = 23;
+            this.label_NumberRound.Text = "To end game left: 10 round";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1124, 628);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.card1);
+            this.Controls.Add(this.groupBox4_Hand);
             this.Controls.Add(this.playerReadyBox);
             this.Controls.Add(this.opponentReadyBox);
             this.Controls.Add(this.playerReadyButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox3_Game);
             this.Name = "Form1";
             this.Text = "Form1";
             this.groupBox2.ResumeLayout(false);
@@ -255,6 +364,14 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.card1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.card2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.card3)).EndInit();
+            this.groupBox4_Hand.ResumeLayout(false);
+            this.groupBox4_Hand.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.OpponentUsedCard)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.playerUsedCard)).EndInit();
+            this.groupBox3_Game.ResumeLayout(false);
+            this.groupBox3_Game.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -281,6 +398,15 @@
         private System.Windows.Forms.CheckBox playerReadyBox;
         private System.Windows.Forms.PictureBox card1;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.PictureBox card2;
+        private System.Windows.Forms.PictureBox card3;
+        private System.Windows.Forms.GroupBox groupBox4_Hand;
+        private System.Windows.Forms.PictureBox OpponentUsedCard;
+        private System.Windows.Forms.ProgressBar ProgressBarOpponentHp;
+        private System.Windows.Forms.ProgressBar ProgressBarPlayerHp;
+        private System.Windows.Forms.PictureBox playerUsedCard;
+        private System.Windows.Forms.GroupBox groupBox3_Game;
+        private System.Windows.Forms.Label label_NumberRound;
     }
 }
 

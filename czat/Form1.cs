@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.IO;
+using System.Windows.Forms;
 
 namespace projekt
 {
@@ -24,21 +20,82 @@ namespace projekt
         public string TextToSend;
         public int playerNumber;
         public int opponentNumber;
+        public int RoundNumber = 10;
         List<Image> listOfPicture;
+        public int[] ID = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+        public string[,] Card = {
+            { "A1","D","0","0"},
+            { "D","0","A1","0"},
+            {"0","A1","D","0" },
+            {"A1","A1","0","0" },
+            {"0","A1","A1","0" },
+            {"0","A2","0","0" },
+            {"A2","0","0","0" },
+            {"0","0","A2","0" },
+            {"D","D","0","0" },
+            {"0","D","D","0" },
+            {"D","D","D","0" },
+            {"0","A4","0","-1" },
+            {"A1","A1","A1","-1" },
+            {"D","0","0","+1" },
+            {"0","D","0","+1" },
+            {"0","0","D","+1" }
+        };
         private bool gameStarted = false;
+
         public Form1()
         {
             InitializeComponent();
-            radioButton1.Checked = true;
+            radioButton1.Checked = true;          
+        }
+
+        private void ShowGame()
+        {
+            groupBox3_Game.Visible = true;
+            groupBox4_Hand.Visible = true;
+
+           // Application.VisualStyleState = System.Windows.Forms.VisualStyles.VisualStyleState.NoneEnabled;
+
+        }
+
+        private void updateRound()
+        {
+            if (RoundNumber > 1)
+            {
+                RoundNumber = RoundNumber - 1;
+                label_NumberRound.Text = "To end game left: " + RoundNumber + " round";
             }
+            else
+            {
+                RoundNumber = RoundNumber - 1;
+                label_NumberRound.Text = "This is last round";
+            }
+
+        }
 
         private void loadListOfPicture()
         {
             card1.Visible = true;
             
             listOfPicture = new List<Image>();
-            listOfPicture.Add(projekt.Properties.Resources.w1);
-            listOfPicture.Add(projekt.Properties.Resources.w2);
+            listOfPicture.Add(projekt.Properties.Resources._1);
+            listOfPicture.Add(projekt.Properties.Resources._2);
+            listOfPicture.Add(projekt.Properties.Resources._3);
+            listOfPicture.Add(projekt.Properties.Resources._4);
+            listOfPicture.Add(projekt.Properties.Resources._5);
+            listOfPicture.Add(projekt.Properties.Resources._6);
+            listOfPicture.Add(projekt.Properties.Resources._7);
+            listOfPicture.Add(projekt.Properties.Resources._8);
+            listOfPicture.Add(projekt.Properties.Resources._9);
+            listOfPicture.Add(projekt.Properties.Resources._10);
+            listOfPicture.Add(projekt.Properties.Resources._11);
+            listOfPicture.Add(projekt.Properties.Resources._12);
+            listOfPicture.Add(projekt.Properties.Resources._13);
+            listOfPicture.Add(projekt.Properties.Resources._14);
+            listOfPicture.Add(projekt.Properties.Resources._15);
+            listOfPicture.Add(projekt.Properties.Resources._16);
+            
+
 
         }
         private bool isSystemMsg(string msg)        //sprawdza czy wiadomosc jest systemowa czy pochodzi z czatu
@@ -264,5 +321,9 @@ namespace projekt
             textBox1.Text = "Numer karty:"+ card1.Image.Tag.ToString();
             
         }
+
+        
+
+      
     }
 }
