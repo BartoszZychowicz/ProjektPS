@@ -24,16 +24,17 @@ namespace projekt
         public string TextToSend;
         public int playerNumber;
         public int opponentNumber;
-        public int playerLife = 6;
-        public int opponentLife = 6;
         public int idPlayerCard = -1;       //na poczatku gry zadne karty nie byly jeszcze wybrane, stan neutralny to id = -1
         public int idOpponentCard = -1;       
         public int TurnLeft = 10;
         public int RoundNumber = 1;
+        static public int maxHp = 10;           //startowe i maksymalne zycie graczy
+        public int playerLife = maxHp;
+        public int opponentLife = maxHp;
         List<Image> listOfPicture;
         public int[] ID = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
         public int[] playerDeck = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
-        public int[] opponentDeck = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+        //public int[] opponentDeck = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
         public string[,] Card = {       //lista kart w talii
             { "A1","D","0","0"},        // id 0
             { "D","0","A1","0"},        // 1
@@ -64,7 +65,17 @@ namespace projekt
             playerDeck = shuffle(ID);
             loadListOfPicture();
             loadHand(playerDeck);
+            startingHp();
+        }
 
+        private void startingHp()
+        {
+            playerLifeLabel.Text = maxHp.ToString();
+            opponentLifeLabel.Text = maxHp.ToString();
+            ProgressBarPlayerHp.Maximum = maxHp;
+            ProgressBarPlayerHp.Value = maxHp;
+            ProgressBarOpponentHp.Maximum = maxHp;
+            ProgressBarOpponentHp.Value = maxHp;   
         }
 
         private void ShowGame()
@@ -81,7 +92,7 @@ namespace projekt
 
         private void updateRound()
         {
-            if (TurnLeft > 1)
+            if (TurnLeft > 1)       //licznik wyswietlany graczom
             {
                 TurnLeft = TurnLeft - 1;
                 label_NumberRound.Text = TurnLeft + " turns left";
@@ -91,7 +102,7 @@ namespace projekt
                 TurnLeft = TurnLeft - 1;
                 label_NumberRound.Text = "Last round";
             }
-
+            RoundNumber++;      //licznik na potrzeby wybierania nowych kart
         }
 
         private void loadListOfPicture()
@@ -232,7 +243,15 @@ namespace projekt
             {
                 if (playerNumber == 1)
                 {
-                    idOpponentCard = Int32.Parse(msg.Substring(3, 1));      //4-ty znak to id wybranej karty
+                    if(msg.Length == 5)
+                    {
+                        idOpponentCard = Int32.Parse(msg.Substring(3, 2));      
+                    }
+                    else if(msg.Length == 4)
+                    {
+                        idOpponentCard = Int32.Parse(msg.Substring(3, 1));
+                    }
+                   
                     this.Invoke(new MethodInvoker(delegate
                     {
                         opponentReadyBox.Checked = true;
@@ -241,6 +260,35 @@ namespace projekt
                     {
                         processTurnResult();
                     }
+                }
+            }
+
+            //sendSystemMsg("TST" + serverCardIdFull + clientCardIdFull + serverLifeFull + clientLifeFull);
+
+            if (msg.Substring(0, 3) == "TST")        //wiadomosc dotyczy stanu gry po tej turze
+            {
+                if(playerNumber == 2)       //tylko klient otrzymuje takie wiadomosci, serwer sam oblicza stan gry
+                {
+                    idPlayerCard = int.Parse(msg.Substring(5, 2));
+                    idOpponentCard = int.Parse(msg.Substring(3, 2));
+                    playerLife = int.Parse(msg.Substring(9, 2));
+                    opponentLife = int.Parse(msg.Substring(7,2));
+
+                    this.Invoke(new MethodInvoker(delegate
+                    {
+                        ProgressBarPlayerHp.Value = playerLife;
+                        playerLifeLabel.Text = playerLife.ToString();
+                        ProgressBarOpponentHp.Value = opponentLife;
+                        opponentLifeLabel.Text = opponentLife.ToString();
+                        showPlayerUsedCard(idPlayerCard);
+                        showOpponentrUsedCard(idOpponentCard);
+                        loadNewCard(playerDeck);
+                        updateRound();
+                        uncheckCards();
+                        playerReadyBox.Checked = false;
+                        opponentReadyBox.Checked = false;
+                        playerReadyButton.Enabled = true;
+                    }));
                 }
             }
 
@@ -282,15 +330,13 @@ namespace projekt
         {
             string[] serverCard = {"0", "0", "0", "0"};
             string[] clientCard = {"0", "0", "0", "0"};
-            idPlayerCard = 11;       //poki nie ma pobierania faktycznych numerow
-            idOpponentCard = 14;
+            
             for (int i = 0; i < 4; i++)
             {
                 serverCard[i] = Card[idPlayerCard, i];
                 clientCard[i] = Card[idOpponentCard, i];
             }
-            //ChatScreentextBox.AppendText(serverCard[0] + serverCard[1] + serverCard[2] + serverCard[3] + "\n");         //debug
-            //ChatScreentextBox.AppendText(clientCard[0] + clientCard[1] + clientCard[2] + clientCard[3] + "\n");         //debug
+            
             for(int j=0 ; j < 3 ; j++)      //ataki gora, przod, dol
             {
                 if (actionIsAttack(serverCard[j]) && !(actionIsDefense(clientCard[j])))     //jezeli serwer wyprowadzil nieobroniony atak
@@ -319,18 +365,33 @@ namespace projekt
                 opponentLife -= 1;
             }
 
+            playerLife = ((playerLife > 0) ? playerLife : 0);
+            playerLife = ((playerLife <= maxHp) ? playerLife : maxHp);
+            opponentLife = ((opponentLife > 0) ? opponentLife : 0);
+            opponentLife = ((opponentLife <= maxHp) ? opponentLife : maxHp);
+
             this.Invoke(new MethodInvoker(delegate
             {
-                ProgressBarPlayerHp.Value = ((playerLife > 0) ? playerLife : 0);
+                ProgressBarPlayerHp.Value = playerLife;
                 playerLifeLabel.Text = playerLife.ToString();
-                ProgressBarOpponentHp.Value = ((opponentLife > 0) ? opponentLife : 0);
+                ProgressBarOpponentHp.Value = opponentLife;
                 opponentLifeLabel.Text = opponentLife.ToString();
+                showPlayerUsedCard(idPlayerCard);
+                showOpponentrUsedCard(idOpponentCard);
+                loadNewCard(playerDeck);
                 updateRound();
+                uncheckCards();
                 playerReadyBox.Checked = false;
                 opponentReadyBox.Checked = false;
                 playerReadyButton.Enabled = true;
             }));
-            
+
+            string serverCardIdFull = ((idPlayerCard < 10) ? string.Concat("0" , idPlayerCard.ToString()) : idPlayerCard.ToString());     //dopelnienie do 2 znakow
+            string clientCardIdFull = ((idOpponentCard < 10) ? string.Concat("0", idOpponentCard.ToString()) : idOpponentCard.ToString());
+            string serverLifeFull = ((playerLife < 10) ? string.Concat("0", playerLife.ToString()) : playerLife.ToString());
+            string clientLifeFull = ((opponentLife < 10) ? string.Concat("0", opponentLife.ToString()) : opponentLife.ToString());
+
+            sendSystemMsg("TST" + serverCardIdFull + clientCardIdFull + serverLifeFull + clientLifeFull);           //Turn STate
 
             //tutaj dodac wysylanie komunikatu o stanie gry do klienta
 
@@ -513,15 +574,13 @@ namespace projekt
 
                 if (playerNumber == 2)  //klient przesyla id wybranej karty
                 {
-
-                    //======================================TUTAJ DODAC FAKTYCZNIE WYBRANE ID=======================================
-
-                    idPlayerCard = 5;
-                    sendSystemMsg("CPI" + "5");                                    //Card Played Id   
+                    idPlayerCard = whichCardIsUsed(playerDeck);
+                    sendSystemMsg("CPI" + idPlayerCard);                                    //Card Played Id   
                     
                 }
                 else if(playerNumber == 1)
                 {
+                    idPlayerCard = whichCardIsUsed(playerDeck);
                     if(playerReadyBox.Checked == true && opponentReadyBox.Checked == true)  //jezeli obaj gotowi, serwer finalizuje ture
                     {
                         processTurnResult();
@@ -574,7 +633,7 @@ namespace projekt
             choosecard3.BackColor = Color.DarkGray;
             playerReadyButton.Enabled = true;
         }
-        private void uncheckedCards()
+        private void uncheckCards()
         {
             choosecard1.BackColor = Color.Transparent;
             choosecard2.BackColor = Color.Transparent;
@@ -676,12 +735,12 @@ namespace projekt
             }
 
         }
-        private void showPlayerUsedCard(int[] table, int id)
+        private void showPlayerUsedCard(int id)
         {
             
             playerUsedCard.Image = listOfPicture[id];
         }
-        private void showOpponentrUsedCard(int[] table, int id)
+        private void showOpponentrUsedCard(int id)
         {
             OpponentUsedCard.Image = listOfPicture[id];
         }
@@ -689,10 +748,10 @@ namespace projekt
         private void button1_Click(object sender, EventArgs e) //obrazowa kolejnosc jednej tury 
         {            
             idPlayerCard= whichCardIsUsed(playerDeck);            
-            showPlayerUsedCard(playerDeck, idPlayerCard);
+            showPlayerUsedCard(idPlayerCard);
             //podsumowanie zycia
             loadNewCard(playerDeck);           
-            uncheckedCards();
+            uncheckCards();
             RoundNumber++;
             
         }
