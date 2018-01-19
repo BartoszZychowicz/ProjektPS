@@ -28,9 +28,10 @@ namespace projekt
         public int idOpponentCard = -1;       
         public int TurnLeft = 10;
         public int RoundNumber = 1;
-        static public int maxHp = 10;           //startowe i maksymalne zycie graczy
+        static public int maxHp = 8;           //startowe i maksymalne zycie graczy
         public int playerLife = maxHp;
         public int opponentLife = maxHp;
+        public bool debugModeOn = false;
         List<Image> listOfPicture;
         public int[] ID = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
         public int[] playerDeck = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
@@ -76,6 +77,78 @@ namespace projekt
             ProgressBarPlayerHp.Value = maxHp;
             ProgressBarOpponentHp.Maximum = maxHp;
             ProgressBarOpponentHp.Value = maxHp;   
+        }
+
+        private string CheckEndGameCondition()    //sprawdzenie warunku zakonczenia gry
+        {  
+                if(playerLife == 0 && opponentLife == 0)
+                {
+                    return "DR";    //DRaw
+                }
+                else if (opponentLife == 0 && playerLife != 0)
+                {
+                    return "SW";    //Server Wins
+                }
+                else if(playerLife == 0 && opponentLife != 0)
+                {
+                    return "CW";    //Client wins
+                }
+                if(TurnLeft == -1 && (playerLife > opponentLife))
+                {
+                    return "SW";
+                }
+                else if(TurnLeft == -1 && (playerLife < opponentLife))
+                {
+                    return "CW";
+                }
+                else if (TurnLeft == -1 && (playerLife == opponentLife))
+                {
+                    return "DR";
+                }
+            else
+            {
+                return "00";    //gra trwa dalej
+            }
+        }
+
+        private void endGame(string result)
+        {
+            this.Invoke(new MethodInvoker(delegate
+            {
+                card1.Enabled = false;
+                card2.Enabled = false;
+                card3.Enabled = false;
+                playerReadyButton.Enabled = false;
+                GameResultLabel.Visible = true;
+           
+            
+            if (result == "SW")
+            {
+                if(playerNumber == 1)
+                {
+                    GameResultLabel.Text = "Koniec gry. Wygrałeś!";
+                }
+                else
+                {
+                    GameResultLabel.Text = "Koniec gry. Przegrałeś!";
+                }
+            }
+            if (result == "CW")
+            {
+                if (playerNumber == 2)
+                {
+                    GameResultLabel.Text = "Koniec gry. Wygrałeś!";
+                }
+                else
+                {
+                    GameResultLabel.Text = "Koniec gry. Przegrałeś!";
+                }
+            }
+            if (result == "DR")
+            {            
+                    GameResultLabel.Text = "Koniec gry. Remis!";           
+            }
+            }));
         }
 
         private void ShowGame()
@@ -124,8 +197,8 @@ namespace projekt
             listOfPicture.Add(projekt.Properties.Resources._12);
             listOfPicture.Add(projekt.Properties.Resources._13);
             listOfPicture.Add(projekt.Properties.Resources._14);
-            listOfPicture.Add(projekt.Properties.Resources._15);
-            listOfPicture.Add(projekt.Properties.Resources._16);            
+            listOfPicture.Add(projekt.Properties.Resources._15);            
+            listOfPicture.Add(projekt.Properties.Resources._16);
         }
         private bool isSystemMsg(string msg)        //sprawdza czy wiadomosc jest systemowa czy pochodzi z czatu
         {
@@ -173,10 +246,12 @@ namespace projekt
             {
                 backgroundWorker3.RunWorkerAsync();
             }
-            this.Invoke(new MethodInvoker(delegate
-            {
-                ChatScreentextBox.AppendText("SysSend:" + msg + "\n");  //tylko do debugowania
-            }));
+            if (debugModeOn) { 
+                this.Invoke(new MethodInvoker(delegate
+                {
+                    ChatScreentextBox.AppendText("SysSend:" + msg + "\n");  //tylko do debugowania
+                }));
+            }
         }
 
         private void startGame()    //rozpoczecie gry
@@ -288,13 +363,13 @@ namespace projekt
                         playerReadyBox.Checked = false;
                         opponentReadyBox.Checked = false;
                         playerReadyButton.Enabled = true;
+                        if(msg.Substring(11, 2) != "00")
+                        {
+                            endGame(msg.Substring(11, 2));
+                        }
                     }));
                 }
             }
-
-            //tutaj dodac odbieranie przez klienta komunikatu o stanie gry
-
-
         }
 
         private bool actionIsAttack(string action)
@@ -326,7 +401,7 @@ namespace projekt
             return int.Parse(action.Substring(1, 1));
         }
 
-        private void processTurnResult()        //jeszcze niekompletne
+        private void processTurnResult()       
         {
             string[] serverCard = {"0", "0", "0", "0"};
             string[] clientCard = {"0", "0", "0", "0"};
@@ -365,7 +440,7 @@ namespace projekt
                 opponentLife -= 1;
             }
 
-            playerLife = ((playerLife > 0) ? playerLife : 0);
+            playerLife = ((playerLife > 0) ? playerLife : 0);                   //ograniczenia na gorna i dolna ilosc zycia
             playerLife = ((playerLife <= maxHp) ? playerLife : maxHp);
             opponentLife = ((opponentLife > 0) ? opponentLife : 0);
             opponentLife = ((opponentLife <= maxHp) ? opponentLife : maxHp);
@@ -391,7 +466,14 @@ namespace projekt
             string serverLifeFull = ((playerLife < 10) ? string.Concat("0", playerLife.ToString()) : playerLife.ToString());
             string clientLifeFull = ((opponentLife < 10) ? string.Concat("0", opponentLife.ToString()) : opponentLife.ToString());
 
-            sendSystemMsg("TST" + serverCardIdFull + clientCardIdFull + serverLifeFull + clientLifeFull);           //Turn STate
+            string res = CheckEndGameCondition();
+
+            if (res != "00")
+            {
+                endGame(res);
+            }
+
+            sendSystemMsg("TST" + serverCardIdFull + clientCardIdFull + serverLifeFull + clientLifeFull + res);           //Turn STate
 
             //tutaj dodac wysylanie komunikatu o stanie gry do klienta
 
@@ -413,10 +495,13 @@ namespace projekt
                     }
                     else
                     {
-                        this.Invoke(new MethodInvoker(delegate
+                        if (debugModeOn)
                         {
-                            ChatScreentextBox.AppendText("SysRcv:" + recieve + "\n");  //tylko do debugowania
-                        }));
+                            this.Invoke(new MethodInvoker(delegate
+                            {
+                                ChatScreentextBox.AppendText("SysRcv:" + recieve + "\n");  //tylko do debugowania
+                            }));
+                        }
                         interpretSystemMsg(truncateFirstSign(recieve));
                     }
                     recieve = "";
@@ -747,13 +832,7 @@ namespace projekt
 
         private void button1_Click(object sender, EventArgs e) //obrazowa kolejnosc jednej tury 
         {            
-            idPlayerCard= whichCardIsUsed(playerDeck);            
-            showPlayerUsedCard(idPlayerCard);
-            //podsumowanie zycia
-            loadNewCard(playerDeck);           
-            uncheckCards();
-            RoundNumber++;
-            
+ 
         }
     }
 }

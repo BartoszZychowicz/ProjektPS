@@ -67,7 +67,7 @@
             this.OpponentUsedCard = new System.Windows.Forms.PictureBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
-            this.button1 = new System.Windows.Forms.Button();
+            this.GameResultLabel = new System.Windows.Forms.Label();
             this.groupBoxConnection.SuspendLayout();
             this.groupBoxChat.SuspendLayout();
             this.groupBox4_Hand.SuspendLayout();
@@ -253,7 +253,6 @@
             // 
             // groupBox4_Hand
             // 
-            this.groupBox4_Hand.Controls.Add(this.button1);
             this.groupBox4_Hand.Controls.Add(this.card1);
             this.groupBox4_Hand.Controls.Add(this.card2);
             this.groupBox4_Hand.Controls.Add(this.card3);
@@ -352,6 +351,7 @@
             // 
             // groupBox3_Game
             // 
+            this.groupBox3_Game.Controls.Add(this.GameResultLabel);
             this.groupBox3_Game.Controls.Add(this.opponentLifeLabel);
             this.groupBox3_Game.Controls.Add(this.playerLifeLabel);
             this.groupBox3_Game.Controls.Add(this.pictureBox2);
@@ -466,15 +466,17 @@
             // 
             this.backgroundWorker3.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker3_DoWork);
             // 
-            // button1
+            // GameResultLabel
             // 
-            this.button1.Location = new System.Drawing.Point(642, 58);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(44, 24);
-            this.button1.TabIndex = 23;
-            this.button1.Text = "next";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.GameResultLabel.AutoSize = true;
+            this.GameResultLabel.Enabled = false;
+            this.GameResultLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GameResultLabel.Location = new System.Drawing.Point(287, 296);
+            this.GameResultLabel.Name = "GameResultLabel";
+            this.GameResultLabel.Size = new System.Drawing.Size(109, 39);
+            this.GameResultLabel.TabIndex = 7;
+            this.GameResultLabel.Text = "label1";
+            this.GameResultLabel.Visible = false;
             // 
             // Form1
             // 
@@ -553,7 +555,7 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker3;
         private System.Windows.Forms.Label opponentLifeLabel;
         private System.Windows.Forms.Label playerLifeLabel;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label GameResultLabel;
     }
 }
 
